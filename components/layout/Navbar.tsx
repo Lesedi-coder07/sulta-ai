@@ -9,7 +9,7 @@ const Navbar = () => {
             <div className="container flex flex-row justify-between items-center">
                 <Link href="/">
                     <h1 className="text-2xl">
-                        Logo
+                        Sulta AI
                     </h1>
                 </Link>
                 <ul className="md:flex flex-row justify-between gap-8 hidden">
