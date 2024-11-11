@@ -6,11 +6,14 @@ import Image from "next/image";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import {features} from "@/data/features";
 import {pricing} from "@/data/pricing";
+import Navbar from "@/components/layout/Navbar";
 import {CircleCheck} from "lucide-react";
+import Footer from "@/components/layout/Footer";
 
 export default function Home() {
     return (
         <>
+                <Navbar/>
             <div className="border-b border-border">
                 <main className="container mx-auto">
                     <div className="relative md:mt-24 mx-auto w-full max-w-4xl pt-4 text-center">
@@ -18,21 +21,25 @@ export default function Home() {
                             <div
                                 className="flex flex-row items-center justify-center gap-5 p-1 text-xs bg-card/60 backdrop-blur-lg rounded-md border border-border">
                                 <Badge className="font-semibold">New</Badge>
-                                <h5>Announce your new feature here</h5>
+                                <h5>Create Custom AI Agents in Minutes</h5>
                                 <Link href="/" className="flex flex-row items-center">
-                                    View all features
+                                    Explore Agents
                                     <ArrowRightIcon className="w-6 h-6 ml-2"/>
                                 </Link>
                             </div>
                         </div>
-                        <h1 className="md:text-7xl my-4 font-extrabold text-4xl md:leading-tight">AI, for the rest of us.</h1>
+                        <h1 className="md:text-7xl my-4 font-extrabold text-4xl md:leading-tight">Your Personal AI Workforce</h1>
                         <p className="mx-auto my-4 text-sm w-full max-w-xl text-center font-medium leading-relaxed tracking-wide">
-                          Sulta AI is an all-in-one platform for creating, deploying and sharing AI Agents
+                            From students to CEOs, create custom AI agents for any task. Access pre-made agents, build your own, and share with others - all without writing a single line of code.
                         </p>
                         <div className="flex flex-row justify-center items-center space-x-4 my-8">
+                            <Link href={"/auth/login"}>
                             <Button>
                                 Get Started
                             </Button>
+                            
+                            </Link>
+                         
                             <Button variant="secondary">
                                 Learn More
                             </Button>
@@ -65,15 +72,14 @@ export default function Home() {
                 <div className="container mx-auto text-center">
                     <div className="my-24">
                         <h5 className="text-primary">
-                            WHY CHOOSE US
+                            THE POWER OF AI AGENTS
                         </h5>
                         <h2 className="text-4xl font-extrabold my-4">
-                            Build better websites with us
+                            Transform How You Work
                         </h2>
 
                         <p className="mx-auto my-4 text-sm w-full max-w-md bg-transparent text-center font-medium leading-relaxed tracking-wide text-muted-foreground">
-                            Show off your features or services in a beautiful way. This section is perfect for
-                            showcasing
+                            Discover how AI agents can revolutionize your workflow, whether you're a student, professional, or business leader.
                         </p>
 
                         <div className="flex flex-col md:flex-row gap-4 mt-12">
@@ -113,11 +119,11 @@ export default function Home() {
                 <div className="container mx-auto text-center">
                     <div className="py-14">
                         <h2 className="text-4xl font-extrabold my-4 text-foreground">
-                            Pricing Plans
+                            Choose Your Plan
                         </h2>
 
                         <p className="mx-auto my-4 text-sm w-full max-w-md bg-transparent text-center font-medium leading-relaxed tracking-wide text-muted-foreground">
-                            Choose a plan that works best for you. You can always upgrade or downgrade your plan later.
+                            Start with our free tier and scale up as your AI agent needs grow. Perfect for individuals and teams of any size.
                         </p>
                         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
                             {pricing.map((plan) => (
@@ -157,7 +163,7 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-
+            <Footer/>
         </>
     );
 }

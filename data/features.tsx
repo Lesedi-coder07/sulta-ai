@@ -3,18 +3,18 @@ import {Handshake} from "lucide-react";
 
 export const features = [
     {
-        title: "Fast and Reliable",
-        description: "We provide fast and reliable service to our customers. Our team is always ready to help you with any problem you may have.",
-        icon: <RocketIcon className="w-6 h-6"/>,
-    },
-    {
-        title: "Customizable",
-        description: "Our service is highly customizable. You can choose the color scheme, and other options that best suit your needs.",
+        title: "No-Code Agent Creation",
+        description: "Create powerful AI agents without writing any code. Our intuitive interface lets you customize behavior, knowledge, and capabilities in minutes.",
         icon: <Pencil2Icon className="w-6 h-6"/>,
     },
     {
-        title: "User Friendly",
-        description: "Our service is designed to be user friendly. You can easily navigate through the app and find what you need.",
+        title: "Pre-Built Agent Library",
+        description: "Access our growing collection of ready-to-use AI agents for various tasks - from research assistants and content creators to data analysts and HR helpers.",
+        icon: <RocketIcon className="w-6 h-6"/>,
+    },
+    {
+        title: "Community Sharing",
+        description: "Share your custom agents with the community or discover agents created by others. Build upon existing agents to create the perfect solution for your needs.",
         icon: <Handshake className="w-6 h-6"/>,
     },
 ];

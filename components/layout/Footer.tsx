@@ -8,13 +8,15 @@ const Footer = () => {
             <div className="max-w-screen-xl mx-auto px-4 md:px-8">
                 <div className="space-y-6 sm:max-w-md sm:mx-auto sm:text-center">
                     <p>
-                        SAAS template is a modern, beautiful, and responsive template designed to showcase your product
-                        or service.
+                       Sulta AI is a platform built by the Team at Sulta Tech to help you create your own AI Agents.
                     </p>
                     <div className="items-center gap-x-3 space-y-3 sm:flex sm:justify-center sm:space-y-0">
+                        <Link href={"/auth/login"}>
                         <Button>
                             Get started
                         </Button>
+                        </Link>
+                   
                         <Button variant="secondary">
                             Learn more
                         </Button>
