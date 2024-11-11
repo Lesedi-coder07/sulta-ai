@@ -24,7 +24,7 @@ function Chat({agent}: {agent: any}) {
           <div className="flex-1 p-6 overflow-y-auto">
             {messages.map((message, index) => (
               <div key={index} className="mb-4">
-                <Card className="p-4 bg-gray-200 dark:bg-gray-700 rounded-lg">
+                <Card className="p-4 bg-gray-200 dark:bg-gray-300 rounded-lg">
                   <CardContent>
                     <p className="text-gray-800 dark:text-white">{message}</p>
                   </CardContent>
