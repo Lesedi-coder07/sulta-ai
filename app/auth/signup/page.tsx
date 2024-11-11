@@ -47,9 +47,11 @@ function SignUp () {
                                         placeholder='Password'
                                     />
                                 </div>
-                                <Button>
-                                    Sign Up
-                                </Button>
+                                <Link href="/waitlist">
+                                    <Button>
+                                        Sign Up
+                                    </Button>
+                                </Link>
                             </div>
                         </form>
                         <div className="relative">

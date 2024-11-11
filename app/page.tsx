@@ -39,10 +39,11 @@ export default function Home() {
                             </Button>
                             
                             </Link>
-                         
+                         <Link href={"/learn-more"}>
                             <Button variant="secondary">
                                 Learn More
                             </Button>
+                        </Link>
                         </div>
 
                         <div

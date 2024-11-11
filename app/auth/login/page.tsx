@@ -44,9 +44,11 @@ function Login () {
                     placeholder='Password'
                   />
                 </div>
-                <Button>
-                  Login
-                </Button>
+                <Link href="/waitlist">
+                  <Button>
+                    Login
+                  </Button>
+                </Link>
               </div>
             </form>
 
