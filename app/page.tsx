@@ -9,10 +9,30 @@ import {pricing} from "@/data/pricing";
 import Navbar from "@/components/layout/Navbar";
 import {CircleCheck} from "lucide-react";
 import Footer from "@/components/layout/Footer";
+import Head from "next/head";
 
 export default function Home() {
     return (
         <>
+             <Head>
+             <title>AI Solutions for Businesses | Custom AI Development | Sulta Tech</title>
+<meta name="description" content="Transform your business with AI-powered solutions from Sulta Tech." />
+<meta name="keywords" content="AI services, artificial intelligence, AI automation, business AI solutions, AI development, AI integration, custom AI, Sulta Tech AI solutions" />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content="AI Solutions for Businesses | Custom AI Development | Sulta Tech" />
+<meta property="og:description" content="Automate tasks and improve decision-making with Sulta Tech's tailored AI services." />
+<meta property="og:url" content="https://sultatech.co.za/services/ai" />
+<meta property="og:image" content="https://sultatech.co.za/img/ai-thumb.jpg" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="AI Solutions for Businesses | Custom AI Development | Sulta Tech" />
+<meta name="twitter:description" content="Automate tasks and improve decision-making with Sulta Tech's tailored AI services." />
+<meta name="twitter:image" content="https://sultatech.co.za/img/ai-thumb.jpg" />
+<meta name="twitter:url" content="https://sultatech.co.za/services/ai" />
+<link rel="icon" href="https://sultatech.com/img/Black&WhiteBG.png" type="image/x-icon" />
+
+            </Head>
                 <Navbar/>
             <div className="border-b border-border">
                 <main className="container mx-auto">
