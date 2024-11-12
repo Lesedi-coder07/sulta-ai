@@ -9,7 +9,7 @@ export default function ChatPage({params}: {params: {slug: string}}) {
     <Head>
         <title>{params.slug ? params.slug : 'Loading'  }</title>
     </Head>
-      <ChatInterface />
+      <ChatInterface agent_id={params.slug} />
     </>
   
 

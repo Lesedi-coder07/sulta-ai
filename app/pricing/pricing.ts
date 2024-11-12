@@ -1,32 +1,31 @@
 export const tiers = [
     {
       name: "Starter",
-      price: "$29",
-      description: "Perfect for individuals and small projects",
+      price: "Free",
+      description: "Perfect for small businesses and individuals",
       features: [
-        "5,000 API calls/month",
-        "3 AI agents",
-        "Basic analytics",
+        "Create up to 5 AI assistants",
+        "Simple performance tracking",
         "Email support",
-        "1 team member",
-        "72-hour response time"
+        "Single user access",
+        "72-hour support response"
       ],
       highlighted: false,
-      cta: "Start Free Trial"
+      cta: "Start For Free"
     },
     {
-      name: "Pro",
-      price: "$99",
-      description: "Ideal for growing businesses",
+      name: "Pro", 
+      price: "R199",
+      description: "Ideal for growing agencies and businesses",
       features: [
-        "50,000 API calls/month",
-        "10 AI agents",
-        "Advanced analytics",
+        "Create up to 10 AI assistants",
+        "Advanced website integration",
+        "Detailed performance insights",
         "Priority support",
-        "5 team members",
-        "24-hour response time",
-        "Custom agent training",
-        "API access"
+        "Get paid for your Agents",
+        "24-hour support response",
+        "White-label options",
+        "Client management portal"
       ],
       highlighted: true,
       cta: "Get Started"
@@ -34,17 +33,17 @@ export const tiers = [
     {
       name: "Enterprise",
       price: "Custom",
-      description: "For large-scale operations",
+      description: "For agencies and large organizations",
       features: [
-        "Unlimited API calls",
-        "Unlimited AI agents",
-        "Enterprise analytics",
+        "Unlimited AI assistants",
+        "Premium website integration",
+        "Advanced business analytics",
         "24/7 dedicated support",
-        "Unlimited team members",
-        "1-hour response time",
-        "Custom integration",
-        "SLA guarantee",
-        "On-premise deployment"
+        "Unlimited users",
+        "1-hour support response",
+        "Custom branding",
+        "Service level agreement",
+        "Dedicated account manager"
       ],
       highlighted: false,
       cta: "Contact Sales"

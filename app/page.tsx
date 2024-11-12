@@ -11,7 +11,9 @@ import { CircleCheck } from "lucide-react";
 import Footer from "@/components/layout/Footer";
 import Head from "next/head";
 import { GradientText } from "@/components/ui/gradient-text";
-
+import { tiers } from "./pricing/pricing";
+import { Check } from "lucide-react";
+import PricingSection from "@/components/Sections/Pricing-Section";
 export default function Home() {
     return (
         <>
@@ -79,10 +81,10 @@ export default function Home() {
                         </div>
                     </div>
 
-                    <div className="max-w-4xl mx-auto mb-8">
-                        <Image className="w-full" src="/dashboard-ui.png" alt="Dashboard ui design" priority
-                            width={1200}
-                            height={800} />
+                    <div className="max-w-2xl mx-auto mb-8">
+                        <Image className="w-3/4 mx-auto rounded-md"  src="/dash-ui-2.png" alt="Dashboard ui design" priority
+                            width={570}
+                            height={494} />
                     </div>
                 </main>
             </div>
@@ -147,7 +149,9 @@ export default function Home() {
                         <p className="mx-auto my-4 text-sm w-full max-w-md bg-transparent text-center font-medium leading-relaxed tracking-wide text-muted-foreground">
                             Start with our free tier and scale up as your AI agent needs grow. Perfect for individuals and teams of any size.
                         </p>
-                        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+
+                        <PricingSection />  
+                        {/* <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
                             {pricing.map((plan) => (
                                 <Card key={plan.title} className="w-full mx-auto max-w-xl text-left relative">
                                     {plan.fancy && (
@@ -181,7 +185,7 @@ export default function Home() {
                                     </CardFooter>
                                 </Card>
                             ))}
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </section>

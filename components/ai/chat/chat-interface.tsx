@@ -6,7 +6,7 @@ import { ChatMessages } from "./chat-messages";
 import { ChatInput } from "./chat-input";
 import { Message } from "@/types/chat";
 
-export function ChatInterface() {
+export function ChatInterface({ agent_id }: {agent_id: string}) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
