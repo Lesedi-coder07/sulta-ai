@@ -1,39 +1,39 @@
-import {Badge} from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import {ArrowRightIcon} from "@radix-ui/react-icons";
-import {Button} from "@/components/ui/button";
+import { ArrowRightIcon } from "@radix-ui/react-icons";
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
-import {features} from "@/data/features";
-import {pricing} from "@/data/pricing";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { features } from "@/data/features";
+import { pricing } from "@/data/pricing";
 import Navbar from "@/components/layout/Navbar";
-import {CircleCheck} from "lucide-react";
+import { CircleCheck } from "lucide-react";
 import Footer from "@/components/layout/Footer";
 import Head from "next/head";
 
 export default function Home() {
     return (
         <>
-             <Head>
-             <title>AI Solutions for Businesses | Custom AI Development | Sulta Tech</title>
-<meta name="description" content="Transform your business with AI-powered solutions from Sulta Tech." />
-<meta name="keywords" content="AI services, artificial intelligence, AI automation, business AI solutions, AI development, AI integration, custom AI, Sulta Tech AI solutions" />
+            <Head>
+                <title>AI Solutions for Businesses | Custom AI Development | Sulta Tech</title>
+                <meta name="description" content="Transform your business with AI-powered solutions from Sulta Tech." />
+                <meta name="keywords" content="AI services, artificial intelligence, AI automation, business AI solutions, AI development, AI integration, custom AI, Sulta Tech AI solutions" />
 
-<meta property="og:type" content="website" />
-<meta property="og:title" content="AI Solutions for Businesses | Custom AI Development | Sulta Tech" />
-<meta property="og:description" content="Automate tasks and improve decision-making with Sulta Tech's tailored AI services." />
-<meta property="og:url" content="https://sultatech.co.za/services/ai" />
-<meta property="og:image" content="https://sultatech.co.za/img/ai-thumb.jpg" />
+                <meta property="og:type" content="website" />
+                <meta property="og:title" content="AI Solutions for Businesses | Custom AI Development | Sulta Tech" />
+                <meta property="og:description" content="Automate tasks and improve decision-making with Sulta Tech's tailored AI services." />
+                <meta property="og:url" content="https://sultatech.co.za/services/ai" />
+                <meta property="og:image" content="https://sultatech.co.za/img/ai-thumb.jpg" />
 
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="AI Solutions for Businesses | Custom AI Development | Sulta Tech" />
-<meta name="twitter:description" content="Automate tasks and improve decision-making with Sulta Tech's tailored AI services." />
-<meta name="twitter:image" content="https://sultatech.co.za/img/ai-thumb.jpg" />
-<meta name="twitter:url" content="https://sultatech.co.za/services/ai" />
-<link rel="icon" href="https://sultatech.com/img/Black&WhiteBG.png" type="image/x-icon" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="AI Solutions for Businesses | Custom AI Development | Sulta Tech" />
+                <meta name="twitter:description" content="Automate tasks and improve decision-making with Sulta Tech's tailored AI services." />
+                <meta name="twitter:image" content="https://sultatech.co.za/img/ai-thumb.jpg" />
+                <meta name="twitter:url" content="https://sultatech.co.za/services/ai" />
+                <link rel="icon" href="https://sultatech.com/img/Black&WhiteBG.png" type="image/x-icon" />
 
             </Head>
-                <Navbar/>
+            <Navbar />
             <div className="border-b border-border">
                 <main className="container mx-auto">
                     <div className="relative md:mt-24 mx-auto w-full max-w-4xl pt-4 text-center">
@@ -44,7 +44,7 @@ export default function Home() {
                                 <h5>Create Custom AI Agents in Minutes</h5>
                                 <Link href="/" className="flex flex-row items-center">
                                     Explore Agents
-                                    <ArrowRightIcon className="w-6 h-6 ml-2"/>
+                                    <ArrowRightIcon className="w-6 h-6 ml-2" />
                                 </Link>
                             </div>
                         </div>
@@ -54,16 +54,16 @@ export default function Home() {
                         </p>
                         <div className="flex flex-row justify-center items-center space-x-4 my-8">
                             <Link href={"/auth/login"}>
-                            <Button>
-                                Get Started
-                            </Button>
-                            
+                                <Button>
+                                    Get Started
+                                </Button>
+
                             </Link>
-                         <Link href={"/learn-more"}>
-                            <Button variant="secondary">
-                                Learn More
-                            </Button>
-                        </Link>
+                            <Link href={"/learn-more"}>
+                                <Button variant="secondary">
+                                    Learn More
+                                </Button>
+                            </Link>
                         </div>
 
                         <div
@@ -80,8 +80,8 @@ export default function Home() {
 
                     <div className="max-w-4xl mx-auto mb-8">
                         <Image className="w-full" src="/dashboard-ui.png" alt="Dashboard ui design" priority
-                               width={1200}
-                               height={800}/>
+                            width={1200}
+                            height={800} />
                     </div>
                 </main>
             </div>
@@ -172,7 +172,7 @@ export default function Home() {
                                         <ul className="mt-4">
                                             {plan.features.map((feature) => (
                                                 <li key={feature} className="flex items-center gap-2">
-                                                    <CircleCheck className="w-4 h-4 text-green-500"/>
+                                                    <CircleCheck className="w-4 h-4 text-green-500" />
                                                     {feature}
                                                 </li>
                                             ))}
@@ -184,7 +184,7 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-            <Footer/>
+            <Footer />
         </>
     );
 }

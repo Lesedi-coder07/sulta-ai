@@ -12,8 +12,23 @@ export const metadata: Metadata = {
     title: "Sulta AI",
     description: "Create Your Own AI Agents",
     icons: {
-        icon: "/favicon.ico",
+        icon: "/vercel.svg",
     },
+    openGraph: {
+        images: [
+            {
+                url: '/ai-hero.jpg',
+                width: 1200,
+                height: 800,
+                alt: 'Sulta AI',
+            }
+        ],
+    },
+    twitter: {
+        card: 'summary_large_image',
+        images: ['/ai-hero.jpg'],
+        description: "Create Your Own AI Agents",
+    }
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
