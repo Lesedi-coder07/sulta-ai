@@ -1,17 +1,12 @@
 'use client'
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from "@/components/ui/input"
 import { ArrowLeft } from "lucide-react"
-import { auth } from '@/app/api/firebase/firebaseConfig';
-import { createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-
-import { useEffect } from 'react';
-
 
 function SignUp() {
     const [name, setName] = useState<string>('You');
@@ -19,11 +14,17 @@ function SignUp() {
     const [password, setPassword] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false)
     const router = useRouter();
+    const [auth, setAuth] = useState<any>(null);
+
+    useEffect(() => {
+        import('@/app/api/firebase/firebaseConfig').then((firebaseModule) => {
+            setAuth(firebaseModule.auth);
+        });
+    }, []);
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value);
     }
-
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
@@ -32,40 +33,40 @@ function SignUp() {
         setPassword(e.target.value);
     }
 
-   //But it works on my machine?
-    const handleEmailSignUp = async (e: React.ChangeEvent<HTMLFormElement>) => {
-
+    const handleEmailSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (!auth) return;
         setLoading(true)
         try {
+            const { createUserWithEmailAndPassword, updateProfile } = await import('firebase/auth');
             let response = await createUserWithEmailAndPassword(auth, email, password);
             await updateProfile(response.user, { displayName: name })
             alert('Account Created Successfully!')
             router.push('/waitlist')
-        } catch {
-            return 'Error: Cannot Create Account!'
+        } catch (error) {
+            console.error('Error: Cannot Create Account!', error);
+            alert('Error: Cannot Create Account!');
         } finally {
             setLoading(false)
         }
-
-
     }
 
     const handleGoogleSignUp = async () => {
+        if (!auth) return;
         setLoading(true)
-        const provider = new GoogleAuthProvider();
         try {
+            const { GoogleAuthProvider, signInWithPopup } = await import('firebase/auth');
+            const provider = new GoogleAuthProvider();
             await signInWithPopup(auth, provider);
             alert('Account Created Successfully!')
             router.push('/waitlist')
-        } catch {
-            return 'Error: Cannot Create Account with Google!'
+        } catch (error) {
+            console.error('Error: Cannot Create Account with Google!', error);
+            alert('Error: Cannot Create Account with Google!');
         } finally {
             setLoading(false)
         }
     }
-
-
 
     return (
         <div>

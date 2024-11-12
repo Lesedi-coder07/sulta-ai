@@ -5,16 +5,21 @@ import { Label } from '@/components/ui/label';
 import { Input } from "@/components/ui/input"
 import { ArrowLeft } from "lucide-react"
 import Link from 'next/link';
-import { useState } from 'react';
-import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { auth } from '@/app/api/firebase/firebaseConfig';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 function Login () {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [auth, setAuth] = useState<any>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    import('@/app/api/firebase/firebaseConfig').then((firebaseModule) => {
+      setAuth(firebaseModule.auth);
+    });
+  }, []);
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -26,8 +31,10 @@ function Login () {
 
   const handleEmailLogin = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!auth) return;
     setLoading(true);
     try {
+      const { signInWithEmailAndPassword } = await import('firebase/auth');
       await signInWithEmailAndPassword(auth, email, password);
       alert('Logged in Successfully!')
       router.push('/waitlist');
@@ -39,9 +46,11 @@ function Login () {
   }
 
   const handleGoogleLogin = async () => {
+    if (!auth) return;
     setLoading(true);
-    const provider = new GoogleAuthProvider();
     try {
+      const { GoogleAuthProvider, signInWithPopup } = await import('firebase/auth');
+      const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
       alert('Logged in Successfully!')
       router.push('/waitlist');
