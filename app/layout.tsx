@@ -9,25 +9,25 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 const font = Mulish({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "Sulta AI",
-    description: "Create Your Own AI Agents",
+    title: "Sulta AI - Your Personal AI Workforce Revolution",
+    description: "Transform Your Productivity: Build Custom AI Agents in Minutes, No Coding Required",
     icons: {
         icon: "/vercel.svg",
     },
     openGraph: {
         images: [
             {
-                url: '/ai-hero.jpg',
+                url: 'https://www.sultatech.com/img/ai-thumb.jpg',
                 width: 1200,
                 height: 800,
-                alt: 'Sulta AI',
+                alt: 'Sulta AI - Custom AI Agents',
             }
         ],
     },
     twitter: {
         card: 'summary_large_image',
-        images: ['/ai-hero.jpg'],
-        description: "Create Your Own AI Agents",
+        images: ['https://www.sultatech.com/img/ai-thumb.jpg'],
+        description: "Unleash the Power of AI: Create Custom AI Agents That Work for You 24/7",
     }
 };
 
