@@ -58,7 +58,10 @@ function Login () {
         <Button
           variant="ghost"
           className="absolute left-4 top-4"
-          onClick={() => window.history.back()}
+          onClick={(e) => {
+            e.preventDefault();
+            router.back();
+          }}
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back
