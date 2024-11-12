@@ -10,6 +10,7 @@ import Navbar from "@/components/layout/Navbar";
 import { CircleCheck } from "lucide-react";
 import Footer from "@/components/layout/Footer";
 import Head from "next/head";
+import { GradientText } from "@/components/ui/gradient-text";
 
 export default function Home() {
     return (
@@ -48,7 +49,7 @@ export default function Home() {
                                 </Link>
                             </div>
                         </div>
-                        <h1 className="md:text-7xl my-4 font-extrabold text-4xl md:leading-tight">Your Personal AI Workforce</h1>
+                        <h1 className="md:text-7xl my-4 font-extrabold text-4xl md:leading-tight">Your Personal <GradientText > AI </GradientText> Workforce</h1>
                         <p className="mx-auto my-4 text-sm w-full max-w-xl text-center font-medium leading-relaxed tracking-wide">
                             From students to CEOs, create custom AI agents for any task. Access pre-made agents, build your own, and share with others - all without writing a single line of code.
                         </p>

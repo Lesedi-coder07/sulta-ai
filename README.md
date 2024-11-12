@@ -1,6 +1,6 @@
-# Open Source SAAS Landing Page Template
+# Sulta AI
 
-This is an open source Software as a Service (SAAS) landing page template built with [Next.js](https://nextjs.org/), [TypeScript](https://www.typescriptlang.org/), and [React](https://reactjs.org/). It's designed to be easy to use and customize to help you create a beautiful, professional landing page for your app, product, or service.
+Sulta AI is an innovative AI platform that brings together multiple specialized AI agents to help with various tasks including content writing, music creation, and text analysis. Built with modern web technologies including [Next.js](https://nextjs.org/), [TypeScript](https://www.typescriptlang.org/), and [React](https://reactjs.org/), Sulta AI provides an intuitive interface for interacting with AI assistants.
 
 ## Preview
 
@@ -11,21 +11,11 @@ This is an open source Software as a Service (SAAS) landing page template built 
 
 ## Features
 
-- Fully responsive design
-- Built with Next.js, TypeScript, and React
-- Easy to customize
-- High performance
+- Multiple specialized AI agents for different tasks
+- Real-time agent status monitoring
+- Dark/light mode support
+- Responsive and modern UI
+- Seamless chat interface
+- Built with Next.js 13+, TypeScript, and React
 
-## Getting Started
 
-Installation locally:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
