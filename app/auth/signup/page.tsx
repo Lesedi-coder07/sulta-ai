@@ -32,7 +32,7 @@ function SignUp() {
         setPassword(e.target.value);
     }
 
-
+   //But it works on my machine?
     const handleEmailSignUp = async (e: React.ChangeEvent<HTMLFormElement>) => {
 
         e.preventDefault();
