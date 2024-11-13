@@ -25,7 +25,7 @@ const Navbar = () => {
 
                 <div className="flex flex-row justify-end space-x-2">
                     <ThemeChanger/>
-                    <Link href={'/signup'}>
+                    <Link href={'/auth/signup'}>
                     <Button>
                         Get Started
                     </Button>

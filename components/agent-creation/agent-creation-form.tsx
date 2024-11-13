@@ -49,8 +49,26 @@ export function AgentCreationForm() {
     },
   });
 
-  function onSubmit(data: AgentFormValues) {
-    console.log("Form submitted:", data);
+  async function onSubmit(data: AgentFormValues) {
+    try {
+      const response = await fetch('/api/firebase/db/createAgent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create agent');
+      }
+
+      const result = await response.json();
+      console.log('Agent created successfully:', result);
+      
+    } catch (error) {
+      console.error('Error creating agent:', error);
+    }
   }
 
   return (

@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/app/theme-provider";
 import Footer from "@/components/layout/Footer";
 import { SidebarProvider } from "@/components/ui/sidebar";
 const font = Mulish({ subsets: ["latin"] });
+import { Analytics } from "@vercel/analytics/react"
 
 export const metadata: Metadata = {
     title: "Sulta AI - Your Personal AI Workforce Revolution",

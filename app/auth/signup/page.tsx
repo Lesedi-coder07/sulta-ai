@@ -7,6 +7,13 @@ import { Input } from "@/components/ui/input"
 import { ArrowLeft } from "lucide-react"
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { db } from '@/app/api/firebase/firebaseConfig';
+import { setUpUser } from '@/app/api/firebase/db/route';
+
+interface SignUpResponse {
+    message: string;
+    status: number;
+}
 
 function SignUp() {
     const [name, setName] = useState<string>('You');
@@ -42,7 +49,9 @@ function SignUp() {
             let response = await createUserWithEmailAndPassword(auth, email, password);
             await updateProfile(response.user, { displayName: name })
             alert('Account Created Successfully!')
+            writeUserToDatabase()
             router.push('/waitlist')
+         
         } catch (error) {
             console.error('Error: Cannot Create Account!', error);
             alert('Error: Cannot Create Account!');
@@ -50,6 +59,14 @@ function SignUp() {
             setLoading(false)
         }
     }
+
+
+    const writeUserToDatabase = async () => {
+        if (!auth) return;
+        const { uid } = auth.currentUser;
+        const response = await setUpUser(email, uid, name);
+    }
+   
 
     const handleGoogleSignUp = async () => {
         if (!auth) return;
@@ -59,7 +76,9 @@ function SignUp() {
             const provider = new GoogleAuthProvider();
             await signInWithPopup(auth, provider);
             alert('Account Created Successfully!')
+            writeUserToDatabase();
             router.push('/waitlist')
+         
         } catch (error) {
             console.error('Error: Cannot Create Account with Google!', error);
             alert('Error: Cannot Create Account with Google!');
