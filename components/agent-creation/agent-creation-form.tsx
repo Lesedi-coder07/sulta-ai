@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { auth } from "@/app/api/firebase/firebaseConfig";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Bot, Wand2 } from "lucide-react";
@@ -35,6 +36,7 @@ type AgentFormValues = z.infer<typeof agentFormSchema>;
 
 export function AgentCreationForm() {
   const [agentType, setAgentType] = useState<"text" | "content">("text");
+  const  user  = auth.currentUser;
 
   const form = useForm<AgentFormValues>({
     resolver: zodResolver(agentFormSchema),
@@ -56,7 +58,10 @@ export function AgentCreationForm() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify({
+          ...data,
+          userId: user?.uid
+        })
       });
 
       if (!response.ok) {

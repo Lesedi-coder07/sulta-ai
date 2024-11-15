@@ -1,5 +1,6 @@
 import { deleteDoc, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { NextResponse, NextRequest } from "next/server";
+import { db } from "@/app/api/firebase/firebaseConfig";
 
 
 export async function POST(req: NextRequest) {
@@ -7,7 +8,7 @@ export async function POST(req: NextRequest) {
     try {
         const data = await req.json();
         
-        // Form system message based on agent type and configuration
+    //     // Form system message based on agent type and configuration
         let systemMessage = `You are an AI assistant with the following characteristics:\nName: ${data.name}\nDescription: ${data.description}\n`;
         
         if (data.type === "text") {
@@ -23,74 +24,83 @@ export async function POST(req: NextRequest) {
         }
 
         // Get current user from auth
-        const auth = (await import("../../firebaseConfig")).auth;
-        const currentUser = auth.currentUser;
+    
 
-        if (!currentUser) {
-            return NextResponse.json({ error: "User not authenticated" }, { status: 401 });
-        } 
-
-        // Set up Firestore references
-        try {
-            const { db } = await import("../../firebaseConfig");
-            const { doc, setDoc, updateDoc, arrayUnion } = await import("firebase/firestore");
-        } catch (error) {
-            throw new Error("Failed to initialize Firestore: " + error);
-        }
-
+ 
         // Check if agent name already exists
         let agentRef;
         let agentSnapshot;
-        try {
-            const { db } = await import("../../firebaseConfig");
-            agentRef = doc(db, 'agents', data.name);
-            agentSnapshot = await getDoc(agentRef);
-        } catch (error) {
-            throw new Error("Failed to check existing agent: " + error);
-        }
-        
-        if (agentSnapshot.exists()) {
-            throw new Error("An agent with this name already exists");
-        }
 
-        // Create new agent document
-        const agentData = {
-            ...data,
-            systemMessage,
-            createdBy: currentUser.uid,
-            createdAt: new Date().toISOString()
-        };
-        
-        try {
-            await setDoc(agentRef, agentData);
-        } catch (error: any) {
-            throw new Error("Failed to create agent document: " + error.message);
-        }
 
-        // Update user's agents array
         try {
-            const { db } = await import("../../firebaseConfig");
-            const { doc, updateDoc, arrayUnion } = await import("firebase/firestore");
-            const userRef = doc(db, 'users', currentUser.uid);
-            await updateDoc(userRef, {
-                Agents: arrayUnion(data.name)
-            });
-        } catch (error: any) {
-            // If user update fails, try to rollback agent creation
-            try {
-                await deleteDoc(agentRef);
-            } catch (rollbackError: any) {
-                console.error("Rollback failed:", rollbackError);
+            if (!db) {
+                throw new Error("Firebase database not initialized");
             }
-            throw new Error("Failed to update user's agents: " + error.message);
+            
+            agentRef = doc(db, 'agents', data.name);
+            if (!agentRef) {
+                throw new Error("Failed to create document reference");
+            }
+            
+            agentSnapshot = await getDoc(agentRef);
+            console.log("Successfully got document snapshot"); // Debug log
+            
+        } catch (error) {
+            console.error("Detailed error:", error); // This will show in server logs
+            throw new Error(`Failed to check existing agent: ${error}`);
         }
+        
+        // if (agentSnapshot.exists()) {
+        //     throw new Error("An agent with this name already exists");
+        // }
 
-        return NextResponse.json({ 
+        return   NextResponse.json({
             message: "Agent created successfully",
             agentId: data.name 
-        });
+            , systemMessagee: systemMessage
+            , agentSnapshot: agentSnapshot
+           });
 
-    } catch (error) {
+        // Create new agent document
+        // const agentData = {
+        //     ...data,
+        //     systemMessage,
+        //     createdBy: data.userId,
+        //     createdAt: new Date().toISOString()
+        // };
+        
+        // try {
+        //     await setDoc(agentRef, agentData);
+        // } catch (error: any) {
+        //     throw new Error("Failed to create agent document: " + error.message);
+        // }
+
+        // // Update user's agents array
+        // try {
+        //     const { db } = await import("../../firebaseConfig");
+        //     const { doc, updateDoc, arrayUnion } = await import("firebase/firestore");
+        //     const userRef = doc(db, 'users', data.userId);
+        //     await updateDoc(userRef, {
+        //         Agents: arrayUnion(data.name)
+        //     });
+        // } catch (error: any) {
+        //     // If user update fails, try to rollback agent creation
+        //     try {
+        //         await deleteDoc(agentRef);
+        //     } catch (rollbackError: any) {
+        //         console.error("Rollback failed:", rollbackError);
+        //     }
+        //     throw new Error("Failed to update user's agents: " + error.message);
+        // }
+
+        // return NextResponse.json({ 
+        //     message: "Agent created successfully",
+        //     agentId: data.name 
+        // });
+
+    } 
+    
+    catch (error) {
         if (error instanceof Error) {
             console.error("Error creating agent:", error);
             return NextResponse.json(
