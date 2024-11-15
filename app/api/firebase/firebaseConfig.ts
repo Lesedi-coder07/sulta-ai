@@ -15,7 +15,6 @@ export const firebaseConfig: Object = {
 };
 
 import admin, {ServiceAccount} from "firebase-admin";
-import serviceAccount from "./adminkey/sulta-ai-firebase-adminsdk-w4tvl-512efcec55.json";
 
 const {
   FIREBASE_TYPE,
