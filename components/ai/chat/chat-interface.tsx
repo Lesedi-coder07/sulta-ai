@@ -5,23 +5,53 @@ import { ChatHeader } from "./chat-header";
 import { ChatMessages } from "./chat-messages";
 import { ChatInput } from "./chat-input";
 import { Message } from "@/types/chat";
-import { auth } from '@/app/api/firebase/firebaseConfig';
+import { auth, db } from '@/app/api/firebase/firebaseConfig';
 import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
+interface Agent {
+    isPublic: boolean;
+    ownerID: string;
+}
 
 
 export function ChatInterface({ agent_id }: { agent_id: string }) {
     const [currentUser, setCurrentUser] = useState<string | null>(null);
+    const [exists, setExists] = useState<false | true>(true);
+    const [agent, setAgent] = useState<Agent | null >(null);
+
+
+    useEffect( ()  => {
+        async function checkAgent() {
+            const agentRef = doc(db, 'agents', agent_id)
+            let snapshot = await getDoc(agentRef)
+            if(snapshot.exists()) {
+                setExists(true)
+                setAgent(snapshot.data() as Agent)
+                if (agent?.isPublic == false) {
+                    if (agent.ownerID != currentUser) {
+                       setExists(false)
+                    }
+                }
+            } else {
+                setExists(false)
+            }
+        }
+
+
+        checkAgent()
+    
+    })
 
 
 
     const [messages, setMessages] = useState<Message[]>([
-        {
-            id: "1",
-            role: "assistant",
-            content: "Hello! How can I assist you today?",
-            timestamp: "just now",
-        },
+        // {
+        //     id: "1",
+        //     role: "assistant",
+        //     content: "Hello! How can I assist you today?",
+        //     timestamp: "just now",
+        // },
     ]);
 
 
@@ -84,10 +114,12 @@ export function ChatInterface({ agent_id }: { agent_id: string }) {
 
 
     return (
-        <div className="flex h-screen flex-col bg-neutral-50 dark:bg-neutral-900">
-            <ChatHeader />
+
+        exists ?   (<div className="flex h-screen flex-col bg-neutral-50 dark:bg-neutral-900">
+            <ChatHeader agent={agent} />
             <ChatMessages messages={messages} />
             <ChatInput onSendMessage={handleSendMessage} />
-        </div>
+        </div> ) : <h1 className="text-center text-2xl">Agent not found</h1>
     );
+      
 }

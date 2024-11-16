@@ -1,9 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AgentCard } from "./agent-card";
+import { auth } from "@/app/api/firebase/firebaseConfig";
+import { doc, collection, onSnapshot } from "firebase/firestore";
+import { db } from "@/app/api/firebase/firebaseConfig";
+import { log } from "console";
+import AgentOptions from "./agent-options";
 
-const agents = [
+const agents1 = [
   {
     id: "1",
     name: "Writing Assistant",
@@ -30,34 +35,111 @@ const agents = [
   },
 ];
 
+interface Agent {
+  id: string;
+  name: string;
+  type: string;
+  status: string;
+  isPublic: boolean
+}
+
 export function AgentSelector() {
-  const [selectedAgent, setSelectedAgent] = useState(agents[0].id);
+  const [agents, setAgents] = useState<Agent[]>([]);
+  const [selectedAgent, setSelectedAgent] = useState<Agent | null >(null);
+  const [agentTabOpen, setAgentTabOpen] = useState<boolean>(false)
+
+
+  const updateSelectedAgent = (agent: Agent | null) => {
+    setSelectedAgent(agent)
+    setAgentTabOpen(true)
+  }
+  useEffect(() => {
+    const unsubscribeAuth = auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        console.log("Authenticated User: ", user);
+        const userDocRef = doc(db, "users", user.uid);
+        const unsubscribeUser = onSnapshot(userDocRef, async (snapshot) => {
+          const agentIds: string[] = snapshot.data()?.agents || [];
+          if (agentIds.length === 0) {
+            setAgents([]);
+            return;
+          }
+
+          try {
+            const agentPromises = agentIds.map((agentId) => {
+              const agentDocRef = doc(db, "agents", agentId);
+              return onSnapshot(agentDocRef, (agentSnapshot) => {
+                const agentData = agentSnapshot.data();
+                if (agentData) {
+                  const agent: Agent = {
+                    id: agentId,
+                    name: agentData.name,
+                    type: agentData.type,
+                    status: agentData.isPublic ? "online" : "offline",
+                    isPublic: agentData.isPublic,
+                  };
+                  setAgents((prevAgents) => {
+                    const otherAgents = prevAgents.filter((a) => a.id !== agentId);
+                    return [...otherAgents, agent];
+                  });
+                }
+              });
+            });
+
+            // Cleanup all agent listeners on unmount or when agents change
+            return () => {
+              agentPromises.forEach((unsubscribe) => unsubscribe());
+            };
+          } catch (error) {
+            console.error("Error fetching agents:", error);
+            setAgents([]);
+          }
+        });
+
+        return () => {
+          unsubscribeUser();
+        };
+      } else {
+        setAgents([]);
+      }
+    });
+
+    return () => {
+      unsubscribeAuth();
+    };
+  }, []);
 
   return (
-    <div className=" w-full border-r border-none p-4 dark:border-neutral-800 dark:bg-none bg-inherit">
-      <div className="space-y-4 w-full flex flex-col">
-        <div>
-          <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
-            Your AI Agents
-          </h2>
-          <p className="text-sm text-neutral-500 dark:text-neutral-400">
-            Select an agent
-          </p>
-        </div>
+    agentTabOpen ? <AgentOptions agent={selectedAgent as Agent} /> : (
+      <div className=" w-full border-r border-none p-4 dark:border-neutral-800 dark:bg-none bg-inherit">
+        <div className="space-y-4 w-full flex flex-col">
+          <div>
+            <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
+              Your AI Agents
+            </h2>
+            <p className="text-sm text-neutral-500 dark:text-neutral-400">
+              Select an agent
+            </p>
+          </div>
 
-        <div className="flex flex-row gap-4 w-full">
-          {agents.map((agent) => (
-            <AgentCard
-              key={agent.id}
-              name={agent.name}
-              type={agent.type}
-              status={agent.status}
-              selected={selectedAgent === agent.id}
-              onClick={() => setSelectedAgent(agent.id)}
-            />
-          ))}
+          <div className="flex flex-row gap-4 w-full">
+            {agents.length === 0 ? <p>You don't have any agents yet</p> : agents.map((agent) => (
+              <AgentCard
+                key={agent.id}
+                name={agent.name}
+                type={agent.type}
+                status={agent.isPublic ? "online" : "offline"}
+                selected={selectedAgent?.name === agent.name}
+                onClick={() => updateSelectedAgent(agent)
+
+
+                }
+              />
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    )
+
   );
 }

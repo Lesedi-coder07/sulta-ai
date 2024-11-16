@@ -1,31 +1,34 @@
-"use client";
+// "use client";
 
 import { Bot, Music, FileText, Pencil, CircleDot } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
-export interface AgentCardProps {
+type AgentStatus = 'online' | 'offline' | 'busy';
+
+export default interface AgentCardProps {
   name: string;
-  type: "Content" | "Music" | "Text";
-  status: "online" | "offline" | "busy";
+  type: string;
+  status: AgentStatus;
   onClick?: () => void;
   selected?: boolean;
 }
 
 const agentIcons = {
-  Content: Pencil,
-  Music: Music,
-  Text: FileText,
-};
+  content: Pencil,
+  music: Music,
+  text: FileText,
+} as const;
 
 const statusColors = {
   online: "text-green-500",
   offline: "text-neutral-500",
   busy: "text-yellow-500",
-};
+} as const;
 
 export function AgentCard({ name, type, status, onClick, selected }: AgentCardProps) {
-  const IconComponent = agentIcons[type];
+  const IconComponent = agentIcons.content;
+  console.log(name, type, status)
 
   return (
     <Card
@@ -52,7 +55,7 @@ export function AgentCard({ name, type, status, onClick, selected }: AgentCardPr
           {name}
         </h3>
         <p className="text-sm text-neutral-500 dark:text-neutral-400">
-          {type} Agent
+          {type.charAt(0).toUpperCase() + type.slice(1)} Agent
         </p>
       </div>
     </Card>

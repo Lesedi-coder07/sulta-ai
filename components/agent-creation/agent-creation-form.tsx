@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { auth } from "@/app/api/firebase/firebaseConfig";
+import { auth, db } from "@/app/api/firebase/firebaseConfig";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Bot, Wand2 } from "lucide-react";
@@ -12,11 +12,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TextAgentOptions } from "@/components/agent-creation/text-agent-options";
 import { ContentAgentOptions } from "@/components/agent-creation/content-agent-options";
 import { BasicAgentConfig } from "@/components/agent-creation/basic-agent-config";
+import { arrayUnion, collection, doc, updateDoc, setDoc } from "firebase/firestore";
+import { addDoc } from "firebase/firestore";
+import AgentCreatedSuccessfully from "./agent-created-successfully";
 
 const agentFormSchema = z.object({
   name: z.string().min(2).max(50),
   description: z.string().min(10).max(500),
   type: z.enum(["text", "content"]),
+  isPublic: z.boolean().default(false),
   // Type-specific configurations will be added dynamically
   textConfig: z.object({
     personality: z.enum(["professional", "friendly", "creative", "technical"]),
@@ -24,6 +28,8 @@ const agentFormSchema = z.object({
     expertise: z.array(z.string()).min(1),
     contextMemory: z.number().min(1).max(10),
   }).optional(),
+
+  // Content agent options
   contentConfig: z.object({
     style: z.enum(["realistic", "artistic", "minimalist", "abstract"]),
     colorPalette: z.array(z.string()).min(1),
@@ -36,6 +42,9 @@ type AgentFormValues = z.infer<typeof agentFormSchema>;
 
 export function AgentCreationForm() {
   const [agentType, setAgentType] = useState<"text" | "content">("text");
+  const [showLink, setShowLink] = useState<false | true>(false);
+  const [agentLink, setAgentLink] = useState<string | null>(null);
+  const [AgentCreated, setAgentCreated] = useState<false | true>(false);
   const  user  = auth.currentUser;
 
   const form = useForm<AgentFormValues>({
@@ -51,32 +60,54 @@ export function AgentCreationForm() {
     },
   });
 
+  const toggleAgentCreated = () => {
+    setAgentCreated(!AgentCreated)
+  }
+
   async function onSubmit(data: AgentFormValues) {
     try {
-      const response = await fetch('/api/firebase/db/createAgent', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...data,
-          userId: user?.uid
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to create agent');
+      if (!user?.uid) {
+        console.error('No user is logged in');
+        return;
       }
 
-      const result = await response.json();
-      console.log('Agent created successfully:', result);
+      const agentData = {
+        ...data,
+        userId: user.uid,
+        createdAt: new Date().toISOString(),
+      };
+
+      // Create the agent document
+      const agentRef = await addDoc(collection(db, "agents"), agentData);
+
+      // Get reference to user document
+      const userRef = doc(db, "users", user.uid);
+      
+      try {
+        // Try to update existing user document
+        await updateDoc(userRef, {
+          agents: arrayUnion(agentRef.id)
+        });
+      } catch (error) {
+        // If user document doesn't exist, create it
+        await setDoc(userRef, {
+          agents: [agentRef.id],
+          ownerID: user.uid,
+          createdAt: new Date().toISOString()
+        });
+      }
+
+      console.log('Agent created successfully with ID:', agentRef.id);
+      setAgentLink(agentRef.id as string)
+      setShowLink(true)
+      toggleAgentCreated()
       
     } catch (error) {
       console.error('Error creating agent:', error);
     }
   }
 
-  return (
+  return ( AgentCreated ? (<AgentCreatedSuccessfully setAgentCreated={toggleAgentCreated} url={agentLink} name={form.getValues('name')} />) : (
     <div className="mt-8 space-y-8">
       <Tabs
         defaultValue="text"
@@ -110,11 +141,13 @@ export function AgentCreationForm() {
               <Button variant="outline" type="button">
                 Cancel
               </Button>
-              <Button type="submit">Create Agent</Button>
+              <Button type="submit" disabled={form.formState.isSubmitting}>
+                {form.formState.isSubmitting ? "Creating..." : "Create Agent"}
+              </Button>
             </div>
           </form>
         </Form>
       </Tabs>
-    </div>
+    </div>)
   );
 }

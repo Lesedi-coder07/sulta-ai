@@ -18,6 +18,7 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Switch } from "@/components/ui/switch";
 
 const expertiseOptions = [
   "General Knowledge",
@@ -71,6 +72,8 @@ export function TextAgentOptions({ form }: { form: any }) {
               </FormItem>
             )}
           />
+
+         
 
           <FormField
             control={form.control}
