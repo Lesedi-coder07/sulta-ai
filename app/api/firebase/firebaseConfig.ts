@@ -47,7 +47,15 @@ export const firebaseConfig: Object = {
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
-export const analytics = getAnalytics(app);
+let analytics: any = null;
+
+if (typeof window !== 'undefined') {
+  // Initialize analytics only on client side
+  import('firebase/analytics').then((firebaseAnalytics) => {
+    analytics = firebaseAnalytics.getAnalytics(app);
+  });
+}
+
 export const db = getFirestore(app);
 export const auth = getAuth(app)
 
