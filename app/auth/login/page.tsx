@@ -37,7 +37,7 @@ function Login () {
       const { signInWithEmailAndPassword } = await import('firebase/auth');
       await signInWithEmailAndPassword(auth, email, password);
       alert('Logged in Successfully!')
-      router.push('/waitlist');
+      router.push('/ai/create');
     } catch {
       return 'Error: Cannot Login!'
     } finally {
@@ -53,7 +53,7 @@ function Login () {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
       alert('Logged in Successfully!')
-      router.push('/waitlist');
+      router.push('/ai/create');
     } catch {
       return 'Error: Cannot Login with Google!'
     } finally {

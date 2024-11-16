@@ -50,7 +50,7 @@ function SignUp() {
             await updateProfile(response.user, { displayName: name })
             alert('Account Created Successfully!')
             writeUserToDatabase()
-            router.push('/waitlist')
+            router.push('/ai/create')
          
         } catch (error) {
             console.error('Error: Cannot Create Account!', error);
@@ -77,7 +77,7 @@ function SignUp() {
             await signInWithPopup(auth, provider);
             alert('Account Created Successfully!')
             writeUserToDatabase();
-            router.push('/waitlist')
+            router.push('/ai/create')
          
         } catch (error) {
             console.error('Error: Cannot Create Account with Google!', error);
