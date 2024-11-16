@@ -1,14 +1,14 @@
 export const tiers = [
     {
       name: "Starter",
-      price: "Free",
+      price: "0",
       description: "Perfect for small businesses and individuals",
       features: [
         "Create up to 5 AI assistants",
         "Simple performance tracking",
         "Email support",
         "Single user access",
-        "72-hour support response"
+        "Cheaper than a lamborghini"
       ],
       highlighted: false,
       cta: "Start For Free"
