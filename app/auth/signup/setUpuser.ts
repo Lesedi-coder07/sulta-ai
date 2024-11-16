@@ -1,5 +1,5 @@
 import { doc, serverTimestamp, setDoc } from "firebase/firestore"; ``
-import { db } from "../firebaseConfig";
+import { db } from "../../api/firebase/firebaseConfig";
 
 export async function setUpUser(email: string, uid: string, name: string) {
 

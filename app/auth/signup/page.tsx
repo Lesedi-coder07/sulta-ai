@@ -8,7 +8,7 @@ import { ArrowLeft } from "lucide-react"
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { db } from '@/app/api/firebase/firebaseConfig';
-import { setUpUser } from '@/app/api/firebase/db/route';
+import { setUpUser } from '@/app/auth/signup/setUpuser';
 
 interface SignUpResponse {
     message: string;
