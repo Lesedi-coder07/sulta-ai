@@ -1,16 +1,42 @@
-import React from 'react'
+'use client'
+import React, { useState , useRef, useEffect} from 'react'
 import { Agent } from '@/types/agent'
 import FileUploader from './file-uploader'
 import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { ArrowRight } from 'lucide-react'
 
 function AgentOptions ({agent}: {agent: Agent}) {
+  const [editing, setEditing] = useState<boolean>(false);
+ 
+
+  const toggleEditing = () => {
+    console.log('toggleEditing')
+    setEditing(!editing)
+  }
+
+  const editTabRef = useRef<HTMLDivElement>(null);
+  const defaultTabREf = useRef<HTMLDivElement>(null);
+
+
+  useEffect(() => {
+    if (editing) {
+      editTabRef.current?.focus();
+      editTabRef.current?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      defaultTabREf.current?.scrollIntoView( {behavior: 'smooth'})
+    }
+  }, [editing]);
+
+
+
   return (
-    <div>
-      <div className="space-y-6 p-4">
+    <div className="w-full overflow-x-hidden space-y-4">
+      <div className="space-y-6 p-2 sm:p-4">
         {/* Header Section */}
-        <div className="flex justify-between items-center">
+        <div  ref={defaultTabREf} className="flex flex-row justify-between items-center gap-4">
           <div>
-            <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">{agent.name}</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-neutral-100">{agent.name}</h2>
             <p className="text-sm text-neutral-500">{agent.type} Agent</p>
           </div>
           
@@ -38,7 +64,7 @@ function AgentOptions ({agent}: {agent: Agent}) {
         </div>
 
         {/* Analytics Section */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="p-4 bg-neutral-100 dark:bg-neutral-800 rounded-lg">
             <h3 className="text-sm font-medium text-neutral-500">Total Queries</h3>
             <p className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">1,234</p>
@@ -54,60 +80,66 @@ function AgentOptions ({agent}: {agent: Agent}) {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-3">
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+        <div className="flex flex-wrap gap-3">
+          <Button variant="default">
             Deploy
-          </button>
-         <Link href={`/ai/chat/${agent.id}`}>
-         <button className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
-            Visit
-          </button>
+          </Button>
+          <Link href={`/ai/chat/${agent.id}`}>
+            <Button variant="default" className="bg-blue-600 hover:bg-blue-700">
+              Visit
+               
+                <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
           </Link>
-          <button 
-            className="px-4 py-2 bg-neutral-200 dark:bg-neutral-800 rounded-md hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-colors"
-            onClick={() => {/* Toggle edit form */}}
+
+
+          <Button 
+            variant="outline"
+            onClick={() => {toggleEditing()}}
           >
             Edit
-          </button>
+          </Button>
         </div>
+      </div>
+      <div className="max-w-full overflow-x-auto">
         <FileUploader />
+      </div>
 
-        {/* Collapsible Edit Form - Initially hidden */}
-        <div className="hidden">
-          <div className="space-y-4 p-4 border border-neutral-200 dark:border-neutral-800 rounded-lg">
-            <div>
-              <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
-                Agent Name
-              </label>
-              <input 
-                type="text"
-                className="mt-1 block w-full rounded-md border-neutral-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                defaultValue={agent.name}
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
-                Type
-              </label>
-              <select 
-                className="mt-1 block w-full rounded-md border-neutral-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                defaultValue={agent.type}
-              >
-                <option value="text">Text</option>
-                <option value="content">Content</option>
-                <option value="music">Music</option>
-              </select>
-            </div>
+      {/* Collapsible Edit Form - Initially hidden */}
+      <div ref={editTabRef} className={editing ? 'block' : 'hidden'}>
+        <div className="space-y-4 p-4 border border-neutral-200 dark:border-neutral-800 rounded-lg">
+          <div>
+            <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+              Agent Name
+            </label>
+            <input 
+              type="text"
+              className="mt-1 block w-full rounded-md border-neutral-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              defaultValue={agent.name}
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+              Type
+            </label>
+            <select 
+              className="mt-1 block w-full rounded-md border-neutral-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              defaultValue={agent.type}
+            >
+              <option value="text">Text</option>
+              <option value="content">Content</option>
+              <option value="music">Music</option>
+            </select>
+          </div>
 
-            <div className="flex justify-end gap-2">
-              <button className="px-4 py-2 bg-neutral-200 dark:bg-neutral-800 rounded-md hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-colors">
-                Cancel
-              </button>
-              <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
-                Save Changes
-              </button>
-            </div>
+          <div className="flex justify-end gap-2">
+            <button onClick={() => {toggleEditing()}} className="px-4 py-2 bg-neutral-200 dark:bg-neutral-800 rounded-md hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-colors">
+              Cancel
+            </button>
+            <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+              Save Changes
+            </button>
           </div>
         </div>
       </div>

@@ -111,7 +111,7 @@ export function AgentSelector() {
 
   return (
     agentTabOpen ? <AgentOptions agent={selectedAgent as Agent} /> : (
-      <div className=" w-full border-r border-none p-4 dark:border-neutral-800 dark:bg-none bg-inherit">
+      <div className="w-full border-r border-none p-4 dark:border-neutral-800 dark:bg-none bg-inherit overflow-hidden">
         <div className="space-y-4 w-full flex flex-col">
           <div>
             <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
@@ -122,7 +122,7 @@ export function AgentSelector() {
             </p>
           </div>
 
-          <div className="flex flex-row gap-4 w-full">
+          <div className="flex flex-row flex-wrap gap-4 w-full overflow-y-auto">
             {agents.length === 0 ? <p>You don't have any agents yet</p> : agents.map((agent) => (
               <AgentCard
                 key={agent.id}
@@ -130,10 +130,7 @@ export function AgentSelector() {
                 type={agent.type}
                 status={agent.isPublic ? "online" : "offline"}
                 selected={selectedAgent?.name === agent.name}
-                onClick={() => updateSelectedAgent(agent)
-
-
-                }
+                onClick={() => updateSelectedAgent(agent)}
               />
             ))}
           </div>

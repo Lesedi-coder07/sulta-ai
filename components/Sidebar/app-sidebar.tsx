@@ -11,7 +11,9 @@ import {
     SidebarMenuItem,
 
 } from "@/components/ui/sidebar"
-import { HomeIcon, PlusIcon, SettingsIcon, DollarSignIcon } from "lucide-react"
+import { HomeIcon, PlusIcon, SettingsIcon, DollarSignIcon, LogOutIcon } from "lucide-react"
+import { Button } from "../ui/button"
+import { auth } from "@/app/api/firebase/firebaseConfig"
 
 const items = [
     {
@@ -39,6 +41,9 @@ const items = [
 
 
 export function AppSidebar() {
+    const handleLogout = () => {
+       auth.signOut();
+    }
     return (
         <Sidebar className="flex flex-col justify-center items-center">
             <SidebarHeader className="mx-4" />
@@ -55,6 +60,16 @@ export function AppSidebar() {
                             </SidebarMenuButton>
                         </SidebarMenuItem>
                     ))}
+
+                    <SidebarMenuItem className="text-lg mx-4 transition-all duration-300 font-medium
+                         hover:bg-neutral-100 dark:hover:bg-neutral-800">
+                        <SidebarMenuButton asChild>
+                            <Button onClick={handleLogout}>
+                                <LogOutIcon />
+                                <span>Logout</span>
+                            </Button>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
                 </SidebarMenu>
                 <SidebarGroup />
                 <SidebarGroup />

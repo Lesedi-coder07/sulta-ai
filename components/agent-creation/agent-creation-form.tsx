@@ -15,6 +15,7 @@ import { BasicAgentConfig } from "@/components/agent-creation/basic-agent-config
 import { arrayUnion, collection, doc, updateDoc, setDoc } from "firebase/firestore";
 import { addDoc } from "firebase/firestore";
 import AgentCreatedSuccessfully from "./agent-created-successfully";
+import { generateSystemMessage } from "@/app/ai/create/generateSystemMessage";
 
 const agentFormSchema = z.object({
   name: z.string().min(2).max(50),
@@ -75,6 +76,7 @@ export function AgentCreationForm() {
         ...data,
         userId: user.uid,
         createdAt: new Date().toISOString(),
+        systemMessage: generateSystemMessage(data.name, data.description, data.type, data.textConfig?.personality, data.textConfig?.tone, data.textConfig?.expertise)
       };
 
       // Create the agent document

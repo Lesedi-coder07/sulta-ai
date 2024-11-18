@@ -1,8 +1,33 @@
+'use client'
 import { AgentCreationForm } from "@/components/agent-creation/agent-creation-form";
 import { AppSidebar } from "@/components/Sidebar/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function CreateAgentPage() {
+
+    const router = useRouter();
+    const [auth, setAuth] = useState<any>(null);
+
+    useEffect(() => {
+        import('@/app/api/firebase/firebaseConfig').then((firebaseModule) => {
+            setAuth(firebaseModule.auth);
+        });
+    }, []);
+
+    useEffect(() => {
+        if (auth) {
+            const unsubscribe = auth.onAuthStateChanged((user: any) => {
+                if (!user) {
+                    router.push('/auth/login');
+                }
+            });
+
+            return () => unsubscribe();
+        }
+    }, [auth, router]);
     return (
         <SidebarProvider>
             <AppSidebar />

@@ -12,6 +12,7 @@ import { doc, getDoc } from "firebase/firestore";
 interface Agent {
     isPublic: boolean;
     ownerID: string;
+    systemMessage: string;
 }
 
 
@@ -19,6 +20,7 @@ export function ChatInterface({ agent_id }: { agent_id: string }) {
     const [currentUser, setCurrentUser] = useState<string | null>(null);
     const [exists, setExists] = useState<false | true>(true);
     const [agent, setAgent] = useState<Agent | null >(null);
+    const [loading, setLoading] = useState<boolean>(false);
 
 
     useEffect( ()  => {
@@ -70,6 +72,7 @@ export function ChatInterface({ agent_id }: { agent_id: string }) {
 
 
     const handleSendMessage = async (content: string) => {
+        setLoading(true)
         const userMessage: Message = {
             id: Date.now().toString(),
             role: "user",
@@ -87,7 +90,8 @@ export function ChatInterface({ agent_id }: { agent_id: string }) {
                 body: JSON.stringify({
                     previousMessages: messages,
                     currentUser: auth.currentUser?.displayName,
-                    prompt: content
+                    prompt: content,
+                    systemMessage: agent?.systemMessage
                 })
             });
     
@@ -96,7 +100,7 @@ export function ChatInterface({ agent_id }: { agent_id: string }) {
             }
     
             const aiMessage = await response.json();
-            
+            setLoading(false)
             setMessages((prev) => [...prev, {
                 id: (Date.now() + 1).toString(),
                 role: "assistant",
@@ -108,7 +112,7 @@ export function ChatInterface({ agent_id }: { agent_id: string }) {
             console.error(error);
             // You might want to show an error message to the user here
         }
-        
+        setLoading(false)
        
     };
 
@@ -117,7 +121,7 @@ export function ChatInterface({ agent_id }: { agent_id: string }) {
 
         exists ?   (<div className="flex h-screen flex-col bg-neutral-50 dark:bg-neutral-900">
             <ChatHeader agent={agent} />
-            <ChatMessages messages={messages} />
+            <ChatMessages messages={messages} loadingState={loading} />
             <ChatInput onSendMessage={handleSendMessage} />
         </div> ) : <h1 className="text-center text-2xl">Agent not found</h1>
     );

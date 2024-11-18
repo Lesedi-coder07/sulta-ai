@@ -10,7 +10,9 @@ export function ChatHeader({ agent }: { agent: any }) {
           <Bot className="h-5 w-5" />
         </div>
         <div>
-          <div className="flex flex-row justify-between w-[95vw] flex-wrap">
+          <div className="flex flex-row justify-between w-[85vw] flex-wrap">
+
+
             <div >
               <h1 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
                 {agent?.name}
@@ -25,7 +27,7 @@ export function ChatHeader({ agent }: { agent: any }) {
               <Link href='/ai/dashboard'>
                 <Button>
                   <ArrowLeft className="h-4 w-4" />
-                  Back to Dashboard
+                  Back
                 </Button>
               </Link>
             </div>
