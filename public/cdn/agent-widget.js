@@ -9,7 +9,7 @@ class AIAgentWidget {
       };
       this.isOpen = false;
       this.messages = [{
-        role: 'bot',
+        role: 'assistant',
         content: 'Hello! How can I help you today?'
       }];
 
@@ -149,7 +149,7 @@ class AIAgentWidget {
           border-bottom-right-radius: 4px;
         }
   
-        .ai-widget-message.bot {
+        .ai-widget-message.assistant {
           background: #f0f0f0;
           color: black;
           align-self: flex-start;
@@ -253,13 +253,15 @@ class AIAgentWidget {
         });
   
         const data = await response.json();
-        
+        console.log(data)
+
+        const botMessage = data.choices[0].message.content
         // Remove typing indicator and add response
         this.hideTypingIndicator();
-        this.addMessage('bot', data.response);
+        this.addMessage('assistant', botMessage);
       } catch (error) {
         this.hideTypingIndicator();
-        this.addMessage('bot', 'Sorry, I encountered an error. Please try again.');
+        this.addMessage('assistant', 'Sorry, I encountered an error. Please try again.');
       }
   
       sendButton.disabled = false;
