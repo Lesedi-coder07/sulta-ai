@@ -5,6 +5,22 @@ import FileUploader from './file-uploader'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { vs2015 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+
+
 
 function AgentOptions ({agent}: {agent: Agent}) {
   const [editing, setEditing] = useState<boolean>(false);
@@ -14,6 +30,8 @@ function AgentOptions ({agent}: {agent: Agent}) {
     console.log('toggleEditing')
     setEditing(!editing)
   }
+
+
 
   const editTabRef = useRef<HTMLDivElement>(null);
   const defaultTabREf = useRef<HTMLDivElement>(null);
@@ -27,7 +45,17 @@ function AgentOptions ({agent}: {agent: Agent}) {
       defaultTabREf.current?.scrollIntoView( {behavior: 'smooth'})
     }
   }, [editing]);
+ const createEmbedCode = () => {
+  return ` <script src="https://ai.sultatech.com/cdn/agent-widget.js"></script>
+    <script>
+        initAIWidget({
+            agentId: "${agent.id}",
+            position: "bottom-right",
+            primaryColor: "#3254f4"
+        });
 
+    </script>`
+ }
 
 
   return (
@@ -79,11 +107,66 @@ function AgentOptions ({agent}: {agent: Agent}) {
           </div>
         </div>
 
+        {/* Deploy Modal */}
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="default">Deploy</Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px] lg:max-w-[800px]">
+            <DialogHeader>
+              <DialogTitle>Deploy Agent to your website</DialogTitle>
+              <DialogDescription>
+                Copy and paste this code to embed your agent on any website.
+              </DialogDescription>
+            </DialogHeader>
+
+
+            <div className="grid gap-4 py-4">
+             <div className="grid gap-2">
+  <Label htmlFor="embed">Embed Code</Label>
+  <div className="relative">
+    <SyntaxHighlighter
+      language="javascript"
+      style={vs2015}
+      customStyle={{
+        padding: '1rem',
+        borderRadius: '0.375rem',
+        height: '200px',
+        width: '700px',
+        overflow: 'auto',
+        fontSize: '11px'
+      }}
+    >
+      {createEmbedCode()}
+    </SyntaxHighlighter>
+    {/* <Button
+      className="absolute top-2 right-2"
+      variant="secondary"
+      size="sm"
+      onClick={() => navigator.clipboard.writeText(createEmbedCode())}
+    >
+      Copy
+    </Button> */}
+  </div>
+</div>
+            </div>
+            <DialogFooter>
+              <Button type="button" onClick={() => {
+                navigator.clipboard.writeText(createEmbedCode());
+              }}>
+                Copy Code
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
         {/* Action Buttons */}
         <div className="flex flex-wrap gap-3">
-          <Button variant="default">
-            Deploy
-          </Button>
+{/* 
+            <Button variant="default">
+              Deploy
+            </Button> */}
+    
           <Link href={`/ai/chat/${agent.id}`}>
             <Button variant="default" className="bg-blue-600 hover:bg-blue-700">
               Visit
