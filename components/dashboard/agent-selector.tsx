@@ -40,19 +40,20 @@ interface Agent {
   name: string;
   type: string;
   status: string;
-  isPublic: boolean
+  isPublic: boolean;
 }
 
 export function AgentSelector() {
   const [agents, setAgents] = useState<Agent[]>([]);
-  const [selectedAgent, setSelectedAgent] = useState<Agent | null >(null);
-  const [agentTabOpen, setAgentTabOpen] = useState<boolean>(false)
-
+  const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
+  const [agentTabOpen, setAgentTabOpen] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const updateSelectedAgent = (agent: Agent | null) => {
-    setSelectedAgent(agent)
-    setAgentTabOpen(true)
-  }
+    setSelectedAgent(agent);
+    setAgentTabOpen(true);
+  };
+
   useEffect(() => {
     const unsubscribeAuth = auth.onAuthStateChanged(async (user) => {
       if (user) {
@@ -62,6 +63,7 @@ export function AgentSelector() {
           const agentIds: string[] = snapshot.data()?.agents || [];
           if (agentIds.length === 0) {
             setAgents([]);
+            setIsLoading(false);
             return;
           }
 
@@ -86,6 +88,9 @@ export function AgentSelector() {
               });
             });
 
+            // Once initial agents are fetched, set loading to false
+            setIsLoading(false);
+
             // Cleanup all agent listeners on unmount or when agents change
             return () => {
               agentPromises.forEach((unsubscribe) => unsubscribe());
@@ -93,6 +98,7 @@ export function AgentSelector() {
           } catch (error) {
             console.error("Error fetching agents:", error);
             setAgents([]);
+            setIsLoading(false);
           }
         });
 
@@ -101,6 +107,7 @@ export function AgentSelector() {
         };
       } else {
         setAgents([]);
+        setIsLoading(false);
       }
     });
 
@@ -122,21 +129,31 @@ export function AgentSelector() {
             </p>
           </div>
 
-          <div className="flex flex-row flex-wrap gap-4 w-full overflow-y-auto">
-            {agents.length === 0 ? <p>You don't have any agents yet</p> : agents.map((agent) => (
-              <AgentCard
-                key={agent.id}
-                name={agent.name}
-                type={agent.type}
-                status={agent.isPublic ? "online" : "offline"}
-                selected={selectedAgent?.name === agent.name}
-                onClick={() => updateSelectedAgent(agent)}
-              />
-            ))}
+          <div className={`flex flex-row flex-wrap gap-4 w-full ${!isLoading ? 'overflow-y-auto' : ''}`}>
+            {isLoading ? (
+              <div className="flex justify-center items-center w-full">
+                <svg className="animate-spin h-8 w-8 text-neutral-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                </svg>
+              </div>
+            ) : agents.length === 0 ? (
+              <p className="text-sm text-neutral-500 dark:text-neutral-400">You don't have any agents yet</p>
+            ) : (
+              agents.map((agent) => (
+                <AgentCard
+                  key={agent.id}
+                  name={agent.name}
+                  type={agent.type}
+                  status={agent.isPublic ? "online" : "offline"}
+                  selected={selectedAgent?.name === agent.name}
+                  onClick={() => updateSelectedAgent(agent)}
+                />
+              ))
+            )}
           </div>
         </div>
       </div>
     )
-
   );
 }

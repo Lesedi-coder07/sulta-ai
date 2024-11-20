@@ -19,6 +19,9 @@ import { Textarea } from "@/components/ui/textarea"
 
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { vs2015 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { collection, updateDoc, doc, getDoc } from 'firebase/firestore'
+import { db } from '@/app/api/firebase/firebaseConfig'
+
 
 
 
@@ -35,6 +38,7 @@ function AgentOptions ({agent}: {agent: Agent}) {
 
   const editTabRef = useRef<HTMLDivElement>(null);
   const defaultTabREf = useRef<HTMLDivElement>(null);
+  const isPublicRef = useRef<HTMLInputElement>(null)
 
 
   useEffect(() => {
@@ -56,7 +60,17 @@ function AgentOptions ({agent}: {agent: Agent}) {
 
     </script>`
  }
+  const togglePublic = async () => {
+    
 
+    const agentDocRef = doc(db,'agents', agent.id)
+    updateDoc(agentDocRef, {
+      isPublic: (!agent.isPublic),
+    }).then(() => {
+      agent.isPublic = !agent.isPublic;
+    })
+   
+   } 
 
   return (
     <div className="w-full overflow-x-hidden space-y-4">
@@ -71,10 +85,11 @@ function AgentOptions ({agent}: {agent: Agent}) {
           <div className="flex items-center gap-4">
             <label className="relative inline-flex items-center cursor-pointer">
               <input 
+              ref={isPublicRef}
                 type="checkbox"
                 className="sr-only peer"
                 checked={agent.isPublic}
-                onChange={() => {/* Handle public toggle */}}
+                onChange={() => {togglePublic()}}
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
               <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Public</span>
@@ -169,7 +184,7 @@ function AgentOptions ({agent}: {agent: Agent}) {
     
           <Link href={`/ai/chat/${agent.id}`}>
             <Button variant="default" className="bg-blue-600 hover:bg-blue-700">
-              Visit
+              Use
                
                 <ArrowRight className="ml-2 h-5 w-5" />
             </Button>

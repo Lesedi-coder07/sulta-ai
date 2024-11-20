@@ -33,8 +33,23 @@ const expertiseOptions = [
 ];
 
 export function ContentAgentOptions({ form }: { form: any }) {
+
+  let comingsoon = true;
+
   return (
-    <div className="space-y-6">
+    <>
+
+    {comingsoon ? (
+      <div className="flex flex-col items-center justify-center p-12 space-y-4 text-center rounded-lg border border-neutral-200 dark:border-neutral-800">
+        <h3 className="text-2xl font-bold">Voice AI Coming Soon!</h3>
+        <p className="text-neutral-500 dark:text-neutral-400 max-w-md">
+          We're working hard to bring you an amazing voice AI experience. Stay tuned for updates!
+        </p>
+        <Badge variant="secondary" className="mt-2">
+          Coming Soon
+        </Badge>
+      </div>
+    ) : (<div className="space-y-6">
       <div className="rounded-lg border border-neutral-200 p-6 dark:border-neutral-800">
         <h3 className="text-lg font-semibold">Personality & Behavior</h3>
         <p className="text-sm text-neutral-500 dark:text-neutral-400">
@@ -164,6 +179,7 @@ export function ContentAgentOptions({ form }: { form: any }) {
           />
         </div>
       </div>
-    </div>
+    </div>)}
+    </>
   );
 }

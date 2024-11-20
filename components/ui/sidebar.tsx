@@ -362,7 +362,7 @@ const SidebarHeader = React.forwardRef<
       {...props}
     >
       <GradientText>
-        <h1 className='text-[30px] mt-2 font-bold'>Sulta AI</h1>
+        <h1 className='text-[38px] mt-2 font-bold'>Sulta AI</h1>
       </GradientText>
 
     </div>

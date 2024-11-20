@@ -24,13 +24,13 @@ const items = [
         title: 'New Agent',
         href: "/ai/create",
         icon: PlusIcon,
-    },
-
-    {
-        title: 'Earnings',
-        href: '/ai/earnings',
+    }, {
+        title: "Billing",  // New item
+        href: "/ai/billing",
         icon: DollarSignIcon,
     }
+
+  
     , {
         title: "Settings",
         href: "/ai/settings",
@@ -45,9 +45,9 @@ export function AppSidebar() {
        auth.signOut();
     }
     return (
-        <Sidebar className="flex flex-col justify-center items-center">
+        <Sidebar className="flex flex-col h-full">
             <SidebarHeader className="mx-4" />
-            <SidebarContent>
+            <SidebarContent className="flex-1">
                 <SidebarMenu>
                     {items.map((item) => item && (
                         <SidebarMenuItem className="text-lg mx-4 font-medium
@@ -60,21 +60,21 @@ export function AppSidebar() {
                             </SidebarMenuButton>
                         </SidebarMenuItem>
                     ))}
-
-                    <SidebarMenuItem className="text-lg mx-4 transition-all duration-300 font-medium
-                         hover:bg-neutral-100 dark:hover:bg-neutral-800">
-                        <SidebarMenuButton asChild>
-                            <Button onClick={handleLogout}>
-                                <LogOutIcon />
-                                <span>Logout</span>
-                            </Button>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
                 </SidebarMenu>
                 <SidebarGroup />
                 <SidebarGroup />
             </SidebarContent>
-            <SidebarFooter />
+            <SidebarFooter className="mt-auto">
+                <SidebarMenuItem className="text-lg mx-4 transition-all duration-300 font-medium
+                     hover:bg-neutral-100 dark:hover:bg-neutral-800">
+                    <SidebarMenuButton asChild>
+                        <Button onClick={handleLogout}>
+                            <LogOutIcon />
+                            <span>Logout</span>
+                        </Button>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+            </SidebarFooter>
         </Sidebar>
     )
 }
