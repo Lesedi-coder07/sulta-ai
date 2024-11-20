@@ -123,7 +123,7 @@ export function AgentCreationForm() {
           </TabsTrigger>
           <TabsTrigger value="content" className="space-x-2">
             <Wand2 className="h-4 w-4" />
-            <span>Content AI</span>
+            <span>Voice AI</span>
           </TabsTrigger>
         </TabsList>
 

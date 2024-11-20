@@ -10,7 +10,7 @@ export function ChatHeader({ agent }: { agent: any }) {
           <Bot className="h-5 w-5" />
         </div>
         <div>
-          <div className="flex flex-row justify-between w-[85vw] flex-wrap">
+          <div className="flex flex-row justify-between w-[85vw] lg:w-[95vw] flex-wrap">
 
 
             <div >

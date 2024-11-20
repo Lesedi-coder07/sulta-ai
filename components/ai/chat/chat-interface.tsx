@@ -21,6 +21,7 @@ export function ChatInterface({ agent_id }: { agent_id: string }) {
     const [exists, setExists] = useState<false | true>(true);
     const [agent, setAgent] = useState<Agent | null >(null);
     const [loading, setLoading] = useState<boolean>(false);
+    const [profileImage, setProfileImage ] = useState<string | null>(null)
 
 
     useEffect( ()  => {
@@ -47,6 +48,7 @@ export function ChatInterface({ agent_id }: { agent_id: string }) {
 
 
 
+
     const [messages, setMessages] = useState<Message[]>([
         // {
         //     id: "1",
@@ -61,6 +63,7 @@ export function ChatInterface({ agent_id }: { agent_id: string }) {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
                 setCurrentUser(user.email);
+                setProfileImage(user.photoURL)
             } else {
                 setCurrentUser(null);
             }
@@ -72,6 +75,8 @@ export function ChatInterface({ agent_id }: { agent_id: string }) {
 
 
     const handleSendMessage = async (content: string) => {
+
+
         setLoading(true)
         const userMessage: Message = {
             id: Date.now().toString(),
@@ -80,33 +85,49 @@ export function ChatInterface({ agent_id }: { agent_id: string }) {
             timestamp: "just now",
         };
         setMessages((prev) => [...prev, userMessage]);
-    
+
+        
         try {
-            const response = await fetch('/api/LLM/openai', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    previousMessages: messages,
-                    currentUser: auth.currentUser?.displayName,
-                    prompt: content,
-                    systemMessage: agent?.systemMessage
-                })
-            });
-    
-            if (!response.ok) {
-                throw new Error('Failed to get AI response');
-            }
-    
-            const aiMessage = await response.json();
-            setLoading(false)
+            // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            const dummyResponse = {
+                content: `I am a simulated AI response. You said: "${content}"\n\nThis is a placeholder response for testing purposes. In production, this would be replaced with the actual API call.`
+            };
+
+            setLoading(false);
             setMessages((prev) => [...prev, {
                 id: (Date.now() + 1).toString(),
-                role: "assistant",
-                content: aiMessage.content,
+                role: "assistant", 
+                content: dummyResponse.content,
                 timestamp: "just now",
             }]);
+        // try {
+        //     const response = await fetch('/api/LLM/openai', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify({
+        //             previousMessages: messages,
+        //             currentUser: auth.currentUser?.displayName,
+        //             prompt: content,
+        //             systemMessage: agent?.systemMessage
+        //         })
+        //     });
+    
+        //     if (!response.ok) {
+        //         throw new Error('Failed to get AI response');
+        //     }
+    
+        //     const aiMessage = await response.json();
+        //     setLoading(false)
+        //     setMessages((prev) => [...prev, {
+        //         id: (Date.now() + 1).toString(),
+        //         role: "assistant",
+        //         content: aiMessage.content,
+        //         timestamp: "just now",
+        //     }]);
     
         } catch (error) {
             console.error(error);
@@ -121,7 +142,7 @@ export function ChatInterface({ agent_id }: { agent_id: string }) {
 
         exists ?   (<div className="flex h-screen flex-col bg-neutral-50 dark:bg-neutral-900">
             <ChatHeader agent={agent} />
-            <ChatMessages messages={messages} loadingState={loading} />
+            <ChatMessages messages={messages} profileImage={profileImage} loadingState={loading} />
             <ChatInput onSendMessage={handleSendMessage} />
         </div> ) : <h1 className="text-center text-2xl">Agent not found</h1>
     );

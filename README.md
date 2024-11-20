@@ -2,12 +2,7 @@
 
 Sulta AI is an innovative AI platform that brings together multiple specialized AI agents to help with various tasks including content writing, music creation, and text analysis. Built with modern web technologies including [Next.js](https://nextjs.org/), [TypeScript](https://www.typescriptlang.org/), and [React](https://reactjs.org/), Sulta AI provides an intuitive interface for interacting with AI assistants.
 
-## Preview
 
-<div>
-  <img src="./Light-mode-screenshot.png" width="45%" />
-  <img src="./Dark-mode-screenshot.png" width="45%" /> 
-</div>
 
 ## Features
 

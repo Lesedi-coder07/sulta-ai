@@ -36,9 +36,9 @@ export function ChatInput({ onSendMessage }: ChatInputProps) {
   };
 
   return (
-    <div className="border-t border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
+    <div className="fixed bottom-0 left-0 right-0 border-t border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900">
       <form onSubmit={handleSubmit} className="mx-auto max-w-3xl">
-        <div className="flex items-end gap-4">
+        <div className="flex items-end gap-4 pb-[env(safe-area-inset-bottom)]">
           <Textarea
             ref={textareaRef}
             value={message}
@@ -51,7 +51,7 @@ export function ChatInput({ onSendMessage }: ChatInputProps) {
           <Button
             type="submit"
             size="icon"
-            className="h-10 w-10 shrink-0 bg-primary hover:bg-primary/90"
+            className="h-10 w-10 shrink-0 bg-blue-600 hover:bg-primary/90"
             disabled={!message.trim()}
           >
             <SendHorizonal className="h-5 w-5" />

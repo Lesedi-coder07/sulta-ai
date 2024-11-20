@@ -11,9 +11,11 @@ interface ChatMessagesProps {
 export function ChatMessages({
   messages,
   loadingState,
+  profileImage
 }: {
   messages: Message[];
   loadingState: boolean;
+  profileImage: string | null;
 }) {
 
 
@@ -24,36 +26,41 @@ export function ChatMessages({
           <div
             key={message.id}
             className={cn(
-              "flex w-full gap-3 rounded-lg p-4 shadow-sm",
+              "flex w-fit gap-3 rounded-lg p-4 shadow-sm md:w-fit",
               message.role === "user"
-                ? "flex-row-reverse bg-blue-700"
-                : "bg-white dark:bg-neutral-800"
+                ? "flex-row-reverse bg-[#444]   ml-auto" 
+                : "bg-white dark:bg-neutral-800 text-lg"
             )}
           >
             <div
               className={cn(
                 "flex h-8 w-8 shrink-0 select-none items-center justify-center rounded-full",
                 message.role === "user"
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-neutral-900 text-neutral-50 dark:bg-neutral-700"
+                  ? "bg-neutral-500 text-white"
+                  : "bg-blue-600 text-white"
               )}
             >
               {message.role === "user" ? (
-                <span className="text-sm">You</span>
+                <img 
+                  src={profileImage ? profileImage : `/icons/user-profile-icon.jpg`} 
+                  alt={profileImage ? 'User Profile Picture' : 'generic'}
+                  className="h-[80%]  w-[80%] rounded-full object-cover"
+                />
               ) : (
                 <Bot className="h-5 w-5" />
               )}
             </div>
-            <div className="flex-1 space-y-2">
+            <div className="w-fit max-w-[500px] flex-1">
               <p
                 className={cn(
-                  "text-sm",
+                  "text-sm w-fit max-w-[500px]",
                   message.role === "user"
-                    ? "text-white dark:text-neutral-100"
+                    ? "text-white dark:text-neutral-300"
                     : "text-neutral-800 dark:text-neutral-200"
                 )}
               >
                 {message.content}
+      
               </p>
               {/* <p className="text-xs text-neutral-500">{message.timestamp}</p> */}
             </div>
