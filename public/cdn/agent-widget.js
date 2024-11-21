@@ -242,7 +242,7 @@ class AIAgentWidget {
       this.showTypingIndicator();
   
       try {
-        const response = await fetch('http://localhost:3000/api/LLM/openai/embedded-prompt', {
+        const response = await fetch('https://ai.sultatech.com/api/LLM/openai/embedded-prompt', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
