@@ -93,7 +93,7 @@ import { NextResponse, NextRequest } from 'next/server';
 //  */
 // async function parsePDF(buffer: ArrayBuffer): Promise<string> {
 //     const pdfData = await pdfParse(Buffer.from(buffer));
-//     return pdfData.text;
+//     return pdfData.text; 
 // }
 
 // /**
