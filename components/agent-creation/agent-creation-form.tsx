@@ -10,12 +10,13 @@ import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TextAgentOptions } from "@/components/agent-creation/text-agent-options";
-import { ContentAgentOptions } from "@/components/agent-creation/content-agent-options";
+import { CallAgentOptions } from "@/components/agent-creation/call-agent-options";
 import { BasicAgentConfig } from "@/components/agent-creation/basic-agent-config";
 import { arrayUnion, collection, doc, updateDoc, setDoc } from "firebase/firestore";
 import { addDoc } from "firebase/firestore";
 import AgentCreatedSuccessfully from "./agent-created-successfully";
 import { generateSystemMessage } from "@/app/ai/create/generateSystemMessage";
+import ExtraContextField from "./extra-context-field";
 
 const agentFormSchema = z.object({
   name: z.string().min(2).max(50),
@@ -133,10 +134,12 @@ export function AgentCreationForm() {
 
             <TabsContent value="text" className="space-y-8">
               <TextAgentOptions form={form} />
+              <ExtraContextField form={form} />
             </TabsContent>
 
             <TabsContent value="content" className="space-y-8">
-              <ContentAgentOptions form={form} />
+              <CallAgentOptions form={form} />
+              <ExtraContextField form={form} /> 
             </TabsContent>
 
             <div className="flex justify-end space-x-4">
