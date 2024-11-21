@@ -1,4 +1,4 @@
-// import { NextResponse, NextRequest } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 // import Papa from 'papaparse';
 // import mammoth from 'mammoth';
 // import pdfParse from 'pdf-parse';
@@ -105,3 +105,7 @@
 //     const result = await mammoth.extractRawText({ arrayBuffer: buffer });
 //     return result.value;
 // }
+
+export async function POST(req: NextRequest) {
+    return NextResponse.json({message: "hello world"})
+}
