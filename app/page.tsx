@@ -14,6 +14,7 @@ import { GradientText } from "@/components/ui/gradient-text";
 import { tiers } from "./pricing/pricing";
 import { Check } from "lucide-react";
 import PricingSection from "@/components/Sections/Pricing-Section";
+import { FeaturesSection } from "@/components/Sections/Features-Section";
 export default function Home() {
     return (
         <>
@@ -73,52 +74,54 @@ export default function Home() {
 
             {/* features */}
 
-            <section
-                className="border-b border-border bg-gradient-to-b from-background to-transparent via-background via-90% relative">
-                <div className="container mx-auto text-center">
-                    <div className="my-24">
-                        <h5 className="text-primary">
+            <section className="relative py-24 overflow-hidden border-b border-border">
+                <div className="container px-4 mx-auto">
+                    <div className="max-w-3xl mx-auto text-center mb-16">
+                        <span className="inline-block py-1 px-3 mb-4 text-xs font-semibold tracking-wider text-primary uppercase rounded-full bg-primary/10">
                             THE POWER OF AI AGENTS
-                        </h5>
-                        <h2 className="text-4xl font-extrabold my-4">
+                        </span>
+                        <h2 className="text-4xl md:text-5xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300">
                             Transform How You Work
                         </h2>
-
-                        <p className="mx-auto my-4 text-sm w-full max-w-md bg-transparent text-center font-medium leading-relaxed tracking-wide text-muted-foreground">
+                        <p className="text-lg text-muted-foreground leading-relaxed">
                             Discover how AI agents can revolutionize your workflow, whether you're a student, professional, or business leader.
                         </p>
+                    </div>
 
-                        <div className="flex flex-col md:flex-row gap-4 mt-12">
-                            {features.map((feature) => (
-                                <Card key={feature.title} className="max-w-lg mx-auto">
-                                    <CardHeader>
-                                        <div
-                                            className="w-16 h-16 text-primary-foreground flex justify-center items-center border border-border rounded-xl bg-primary mx-auto">
+                    <div className="grid md:grid-cols-3 gap-8">
+                        {features.map((feature) => (
+                            <Card key={feature.title} className="relative group hover:shadow-lg transition-all duration-300 border border-border/50 backdrop-blur-sm bg-background/50">
+                                <CardHeader>
+                                    <div className="w-16 h-16 mx-auto mb-6 relative">
+                                        <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl group-hover:blur-2xl transition-all duration-300"></div>
+                                        <div className="relative w-full h-full flex items-center justify-center text-primary-foreground bg-primary rounded-full">
                                             {feature.icon}
                                         </div>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <CardTitle>{feature.title}</CardTitle>
-                                        <CardDescription className="mt-4">
-                                            {feature.description}
-                                        </CardDescription>
-                                    </CardContent>
-                                </Card>
-                            ))}
-                        </div>
+                                    </div>
+                                    <CardTitle className="text-xl font-bold mb-4 group-hover:text-primary transition-colors duration-300">
+                                        {feature.title}
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <CardDescription className="text-muted-foreground leading-relaxed">
+                                        {feature.description}
+                                    </CardDescription>
+                                </CardContent>
+                            </Card>
+                        ))}
                     </div>
                 </div>
-                <div
-                    className="absolute top-0 -z-10 max-h-full w-full h-full blur-2xl">
-                    <div
-                        className="absolute bottom-0 left-0 w-1/2 h-56 bg-violet-600 rounded-full mix-blend-multiply opacity-70 animate-blob filter blur-3xl">
-                    </div>
-                    <div
-                        className="absolute bottom-0 right-0 w-1/2 h-56 bg-sky-600 rounded-full mix-blend-multiply opacity-70 animate-blob delay-1000 filter blur-3xl"></div>
+
+                <div className="absolute inset-0 -z-10">
+                    <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-violet-600/30 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
+                    <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-sky-600/30 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+                    <div className="absolute bottom-1/2 left-1/2 w-96 h-96 bg-pink-600/30 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
                 </div>
             </section>
 
             {/* Pricing */}
+
+            <FeaturesSection />
 
             <section
                 className="border-b dark border-border bg-background">

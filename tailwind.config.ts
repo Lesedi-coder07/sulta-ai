@@ -61,7 +61,16 @@ const config = {
     				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
     				border: 'hsl(var(--sidebar-border))',
     				ring: 'hsl(var(--sidebar-ring))'
-    			}
+    			},
+    			purple: {
+    				400: '#9F7AEA',
+    			},
+    			pink: {
+    				500: '#ED64A6',
+    			},
+    			blue: {
+    				500: '#4299E1',
+    			},
     		},
     		borderRadius: {
     			lg: 'calc(var(--radius) - 10px)',

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { FeaturesSection } from '@/components/Sections/Features-Section';
 
 export default function UploadPage() {
   const [response, setResponse] = useState<string | null>(null);
@@ -47,6 +48,8 @@ export default function UploadPage() {
 
       {error && <div className="mt-4 text-red-500">{error}</div>}
       {response && <pre className="mt-4 p-4 bg-gray-100 rounded">{response}</pre>}
+
+      <FeaturesSection />
     </div>
   );
 }
