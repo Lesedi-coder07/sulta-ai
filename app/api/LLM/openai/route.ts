@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
           })),
           {
             role: 'system', 
-            content: `${systemMessage}. You are currently talking to ${currentUser}. You were made by Sulta Tech on the Sulta AI platform.`
+            content: `${systemMessage}. ${currentUserInstruction}. You were made by Sulta Tech on the Sulta AI platform.`
           },
           {role: "user", content: prompt}
         ]

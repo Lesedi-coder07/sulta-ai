@@ -87,47 +87,47 @@ export function ChatInterface({ agent_id }: { agent_id: string }) {
         setMessages((prev) => [...prev, userMessage]);
 
         
-        try {
+       
             // Simulate API delay
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            // await new Promise(resolve => setTimeout(resolve, 1000));
 
-            const dummyResponse = {
-                content: `I am a simulated AI response. You said: "${content}"\n\nThis is a placeholder response for testing purposes. In production, this would be replaced with the actual API call.`
-            };
+            // const dummyResponse = {
+            //     content: `I am a simulated AI response. You said: "${content}"\n\nThis is a placeholder response for testing purposes. In production, this would be replaced with the actual API call.`
+            // };
 
-            setLoading(false);
+            // setLoading(false);
+            // setMessages((prev) => [...prev, {
+            //     id: (Date.now() + 1).toString(),
+            //     role: "assistant", 
+            //     content: dummyResponse.content,
+            //     timestamp: "just now",
+            // }]);
+        try {
+            const response = await fetch('/api/LLM/openai', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    previousMessages: messages,
+                    currentUser: auth.currentUser?.displayName,
+                    prompt: content,
+                    systemMessage: agent?.systemMessage
+                })
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to get AI response');
+            }
+    
+            const aiMessage = await response.json();
+            setLoading(false)
             setMessages((prev) => [...prev, {
                 id: (Date.now() + 1).toString(),
-                role: "assistant", 
-                content: dummyResponse.content,
+                role: "assistant",
+                content: aiMessage.content,
                 timestamp: "just now",
             }]);
-        // try {
-        //     const response = await fetch('/api/LLM/openai', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify({
-        //             previousMessages: messages,
-        //             currentUser: auth.currentUser?.displayName,
-        //             prompt: content,
-        //             systemMessage: agent?.systemMessage
-        //         })
-        //     });
-    
-        //     if (!response.ok) {
-        //         throw new Error('Failed to get AI response');
-        //     }
-    
-        //     const aiMessage = await response.json();
-        //     setLoading(false)
-        //     setMessages((prev) => [...prev, {
-        //         id: (Date.now() + 1).toString(),
-        //         role: "assistant",
-        //         content: aiMessage.content,
-        //         timestamp: "just now",
-        //     }]);
     
         } catch (error) {
             console.error(error);

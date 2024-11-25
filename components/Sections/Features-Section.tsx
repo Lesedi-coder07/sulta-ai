@@ -1,3 +1,4 @@
+'use client'
 import { LucideIcon, Bot, Phone, Sparkles, Workflow, Share2, Lock, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
