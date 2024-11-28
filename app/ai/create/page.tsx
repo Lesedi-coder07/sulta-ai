@@ -25,6 +25,8 @@ export default function CreateAgentPage() {
                 }
             });
 
+            
+
             return () => unsubscribe();
         }
     }, [auth, router]);
