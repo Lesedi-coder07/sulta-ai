@@ -1,8 +1,9 @@
-
+'use client'
 // import { Plus, Phone, VolumeX } from "lucide-react"
 import CallControls from '@/components/ai/call/call-controls'
 
-export default function CallInterface() {
+export default function CallInterface({agent_id} : {agent_id: string}) {
+  console.log(agent_id)
     return (
     <>
 

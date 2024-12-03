@@ -39,7 +39,7 @@ export function CallAgentOptions({ form }: { form: any }) {
         voice: form.getValues("callConfig.voice") || "nat",
         max_duration: 12,
       };
-      const apiKey = process.env.NEXT_PUBLIC_BLAND_AI_KEY;
+      const apiKey = 'sk-31t4vqtrz09ed6adbmivdc905iuey5qrn89nspym3tzhapnnm8ma6umyitac1dbw69';
       if (!apiKey) {
         throw new Error('Bland AI API key is not configured');
       }
@@ -139,7 +139,7 @@ export function CallAgentOptions({ form }: { form: any }) {
             className="max-w-xs"
           />
           <Button 
-            onClick={handleTestCall} 
+            onClick={() => handleTestCall()} 
             disabled={isTesting || !testNumber}
             className="space-x-2"
           >

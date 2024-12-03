@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 
 
 
-console.log(process.env.TEST_KEY)
 const openai = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
 
 

@@ -21,7 +21,7 @@ import ExtraContextField from "./extra-context-field";
 const agentFormSchema = z.object({
   name: z.string().min(2).max(50),
   description: z.string().min(10).max(500),
-  type: z.enum(["text", "content"]),
+  type: z.enum(["text", "voice"]),
   isPublic: z.boolean().default(false),
   // Type-specific configurations will be added dynamically
   textConfig: z.object({
@@ -32,33 +32,41 @@ const agentFormSchema = z.object({
   }).optional(),
 
   // Content agent options
-  contentConfig: z.object({
-    style: z.enum(["realistic", "artistic", "minimalist", "abstract"]),
-    colorPalette: z.array(z.string()).min(1),
-    resolution: z.enum(["standard", "high", "ultra"]),
-    aspectRatio: z.enum(["1:1", "16:9", "4:3", "3:2"]),
+  voiceConfig: z.object({
+   
+    voice: z.enum(["nat", "james", "sarah", "emily"]),
+    language: z.enum(["en", "es", "fr", "de"]),
   }).optional(),
+
+  extraContext: z.string().default(''),
 });
 
 type AgentFormValues = z.infer<typeof agentFormSchema>;
 
 export function AgentCreationForm() {
-  const [agentType, setAgentType] = useState<"text" | "content">("text");
+  const [agentType, setAgentType] = useState<"text" | "voice">("text");
   const [showLink, setShowLink] = useState<false | true>(false);
   const [agentLink, setAgentLink] = useState<string | null>(null);
-  const [AgentCreated, setAgentCreated] = useState<false | true>(false);
+  const [AgentCreated, setAgentCreated] = useState<false | true>(true);
   const  user  = auth.currentUser;
 
   const form = useForm<AgentFormValues>({
     resolver: zodResolver(agentFormSchema),
     defaultValues: {
       type: "text",
+      name: '',
+      description: '',
       textConfig: {
         personality: "professional",
         tone: "formal",
         expertise: [],
         contextMemory: 5,
       },
+      voiceConfig: {
+        voice: "nat",
+        language: "en",
+      },
+      extraContext: '',
     },
   });
 
@@ -77,7 +85,16 @@ export function AgentCreationForm() {
         ...data,
         userId: user.uid,
         createdAt: new Date().toISOString(),
-        systemMessage: generateSystemMessage(data.name, data.description, data.type, data.textConfig?.personality, data.textConfig?.tone, data.textConfig?.expertise)
+        systemMessage: data.type === "text" ? 
+          generateSystemMessage(
+            data.name, 
+            data.description, 
+            data.type,
+            data.textConfig?.personality,
+            data.textConfig?.tone, 
+            data.textConfig?.expertise
+          ) :
+          `You are a call center agent named ${data.name}. You are a ${data.type}. Your description is ${data.description}.`
       };
 
       // Create the agent document
@@ -115,14 +132,14 @@ export function AgentCreationForm() {
       <Tabs
         defaultValue="text"
         className="w-full"
-        onValueChange={(value) => setAgentType(value as "text" | "content")}
+        onValueChange={(value) => setAgentType(value as "text" | "voice")}
       >
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="text" className="space-x-2">
             <Bot className="h-4 w-4" />
             <span>Text AI</span>
           </TabsTrigger>
-          <TabsTrigger value="content" className="space-x-2">
+          <TabsTrigger value="voice" className="space-x-2">
             <Wand2 className="h-4 w-4" />
             <span>Voice AI</span>
           </TabsTrigger>
@@ -137,7 +154,7 @@ export function AgentCreationForm() {
               <ExtraContextField form={form} />
             </TabsContent>
 
-            <TabsContent value="content" className="space-y-8">
+            <TabsContent value="voice" className="space-y-8">
               <CallAgentOptions form={form} />
               <ExtraContextField form={form} /> 
             </TabsContent>

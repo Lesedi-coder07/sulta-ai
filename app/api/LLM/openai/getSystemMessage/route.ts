@@ -13,6 +13,8 @@ if (!admin.apps.length) {
   });
 }
 
+export const db = admin.firestore();
+
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*', // In production, specify exact origin(s) for security
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -60,7 +62,14 @@ export async function POST(req: NextRequest) {
     console.error('Error fetching agent data:', error);
     return NextResponse.json(
       { error: 'Internal Server Error' },
-      { status: 500, headers: CORS_HEADERS }
-    );
+      {
+    status: 500, headers: CORS_HEADERS } );
   }
 }
+
+//Im acting like im coding right now for Youtube....
+
+
+function John () {}
+
+function Bob () {}
