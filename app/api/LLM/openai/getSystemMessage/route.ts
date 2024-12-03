@@ -70,6 +70,3 @@ export async function POST(req: NextRequest) {
 //Im acting like im coding right now for Youtube....
 
 
-function John () {}
-
-function Bob () {}
