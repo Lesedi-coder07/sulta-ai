@@ -1,7 +1,17 @@
 // import { CallInterface } from '@/components/ai/call/call-interface'
 import CallInterface from "@/components/ai/call/call-interface"
-import {db } from '@/app/api/LLM/openai/getSystemMessage/route'
+import * as admin from 'firebase-admin';
+if (!admin.apps.length) {
+    admin.initializeApp({
+      credential: admin.credential.cert({
+        projectId: process.env.FIREBASE_PROJECT_ID,
+        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+        privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+      }),
+    });
+  }
 
+const db = admin.firestore();
 
 export default function CallAgentPage ({params} : {params: {slug : string}}) {
     const url_data = params.slug

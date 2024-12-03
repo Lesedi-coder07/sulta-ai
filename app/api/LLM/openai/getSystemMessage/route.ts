@@ -13,7 +13,7 @@ if (!admin.apps.length) {
   });
 }
 
-export const db = admin.firestore();
+const db = admin.firestore();
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*', // In production, specify exact origin(s) for security
