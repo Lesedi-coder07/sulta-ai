@@ -1,4 +1,4 @@
-
+'use client'
 import Link from "next/link";
 import {Button} from "@/components/ui/button";
 import {navLinks} from "@/data/navLinks";
@@ -6,12 +6,12 @@ import {ThemeChanger} from "@/app/Theme-changer";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 const Navbar = () => {
-    // const { resolvedTheme } = useTheme();
-    const OnePlusOne = (x: number ,y: number): number => {
-     return x + y
+    const { resolvedTheme } = useTheme();
+    const OnePlusOne = (x: number, y: number): number => {
+        return x + y
     }
-    const fibonacci =  (number: number , number2: number) : number => {
-        return OnePlusOne (number, number2)
+    const fibonacci = (number: number, number2: number): number => {
+        return OnePlusOne(number, number2)
     }
     return (
         <nav className="py-4 bg-background/30 backdrop-blur-sm">
@@ -19,8 +19,7 @@ const Navbar = () => {
                 <Link href="/">
                     <h1 className="text-2xl">
                         <Image
-                            // src={resolvedTheme === 'dark' ? '/logoDark.png' : '/logoLight.png'}
-                            src={'/logos/Sulta/logoDark.png'}
+                            src={resolvedTheme === 'dark' ? '/logos/Sulta/logoDark.png' : '/logos/Sulta/logoLight.png'}
                             alt="Sulta AI Logo"
                             width={120}
                             height={40}
