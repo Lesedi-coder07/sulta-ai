@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 
 import { Bot, Music, FileText, Pencil, CircleDot } from "lucide-react";
 import { Card } from "@/components/ui/card";

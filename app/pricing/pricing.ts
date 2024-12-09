@@ -15,7 +15,7 @@ export const tiers = [
     },
     {
       name: "Pro", 
-      price: "R199",
+      price: "$8",
       description: "Ideal for growing agencies and businesses",
       features: [
         "Create up to 10 AI assistants",
