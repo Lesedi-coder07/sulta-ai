@@ -63,6 +63,7 @@
     "react-hook-form": "^7.53.2",
     "react-resizable-panels": "^2.0.16",
     "react-syntax-highlighter": "^15.6.1",
+    "shadcn": "^2.1.6",
     "sonner": "^1.4.41",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
