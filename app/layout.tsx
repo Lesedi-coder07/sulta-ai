@@ -1,3 +1,4 @@
+'client'
 import type { Metadata } from "next";
 import { Mulish } from "next/font/google";
 import "./globals.css";
@@ -27,18 +28,16 @@ export const metadata: Metadata = {
         card: 'summary_large_image',
         images: ['https://www.sultatech.com/img/ai-thumb.jpg'],
         description: "Unleash the Power of AI: Create Custom AI Agents That Work for You 24/7",
-    }
-};
+}}
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-    return (
-        <html lang="en" className="dark">
-            <body className={font.className}>
-                    <ThemeProvider>
-                        {children}
-                    </ThemeProvider>
-             <Analytics />
-            </body>
-        </html>
-    );
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+  
+      <body>{children}</body>
+  
+  )
 }

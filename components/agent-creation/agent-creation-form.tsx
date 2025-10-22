@@ -15,7 +15,7 @@ import { BasicAgentConfig } from "@/components/agent-creation/basic-agent-config
 import { arrayUnion, collection, doc, updateDoc, setDoc } from "firebase/firestore";
 import { addDoc } from "firebase/firestore";
 import AgentCreatedSuccessfully from "./agent-created-successfully";
-import { generateSystemMessage } from "@/app/ai/create/generateSystemMessage";
+import { generateSystemMessage } from "@/ai/create/generateSystemMessage";
 import ExtraContextField from "./extra-context-field";
 
 const agentFormSchema = z.object({
